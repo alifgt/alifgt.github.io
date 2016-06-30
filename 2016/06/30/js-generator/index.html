@@ -9,18 +9,20 @@
         <meta name="keywords" content="" />
     
     <meta name="description" content="前言2012 年的时候，我去详细了解过 Python 的 Tornado 框架中的 gen.py 这套工具， http://www.zouyesheng.com/generator-for-async.html ，因为觉得它用于异步环境的编程中实在太方便了，而且，适用性上几乎没有成本，你的定义部分代码完全不需要因为这套工具而作任何改动，这套工具完全是“使用时”的一种可选形式。
-那时我想的就是，如果">
+那时我想的就是，如">
 <meta property="og:type" content="article">
 <meta property="og:title" content="使用生成器展平异步回调结构，JS篇">
 <meta property="og:url" content="http://alifgt.github.io/2016/06/30/js-generator/index.html">
 <meta property="og:site_name" content="FGT">
 <meta property="og:description" content="前言2012 年的时候，我去详细了解过 Python 的 Tornado 框架中的 gen.py 这套工具， http://www.zouyesheng.com/generator-for-async.html ，因为觉得它用于异步环境的编程中实在太方便了，而且，适用性上几乎没有成本，你的定义部分代码完全不需要因为这套工具而作任何改动，这套工具完全是“使用时”的一种可选形式。
-那时我想的就是，如果">
-<meta property="og:updated_time" content="2016-06-30T03:57:09.000Z">
+那时我想的就是，如">
+<meta property="og:image" content="https://img.alicdn.com/tps/TB15xjYKFXXXXa0XXXXXXXXXXXX-700-400.png">
+<meta property="og:updated_time" content="2016-06-30T09:42:02.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="使用生成器展平异步回调结构，JS篇">
 <meta name="twitter:description" content="前言2012 年的时候，我去详细了解过 Python 的 Tornado 框架中的 gen.py 这套工具， http://www.zouyesheng.com/generator-for-async.html ，因为觉得它用于异步环境的编程中实在太方便了，而且，适用性上几乎没有成本，你的定义部分代码完全不需要因为这套工具而作任何改动，这套工具完全是“使用时”的一种可选形式。
-那时我想的就是，如果">
+那时我想的就是，如">
+<meta name="twitter:image" content="https://img.alicdn.com/tps/TB15xjYKFXXXXa0XXXXXXXXXXXX-700-400.png">
     
 
     
@@ -96,6 +98,10 @@ var _hmt = _hmt || [];
                             
                                 <li class="main-nav-list-item" >
                                     <a class="main-nav-list-link" href="/categories/12D实验室/">12D实验室</a>
+                                </li>
+                            
+                                <li class="main-nav-list-item" >
+                                    <a class="main-nav-list-link" href="/categories/IRIS翻译社/">IRIS翻译社</a>
                                 </li>
                             
                                 <li class="main-nav-list-item" >
@@ -185,7 +191,8 @@ var _hmt = _hmt || [];
 
         </div>
         <div class="article-entry" itemprop="articleBody">
-            <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>2012 年的时候，我去详细了解过 Python 的 Tornado 框架中的 <code>gen.py</code> 这套工具， <a href="http://www.zouyesheng.com/generator-for-async.html" target="_blank" rel="external">http://www.zouyesheng.com/generator-for-async.html</a> ，因为觉得它用于异步环境的编程中实在太方便了，而且，适用性上几乎没有成本，你的定义部分代码完全不需要因为这套工具而作任何改动，这套工具完全是“使用时”的一种可选形式。</p>
+            <p><img src="https://img.alicdn.com/tps/TB15xjYKFXXXXa0XXXXXXXXXXXX-700-400.png" alt=""></p>
+<h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>2012 年的时候，我去详细了解过 Python 的 Tornado 框架中的 <code>gen.py</code> 这套工具， <a href="http://www.zouyesheng.com/generator-for-async.html" target="_blank" rel="external">http://www.zouyesheng.com/generator-for-async.html</a> ，因为觉得它用于异步环境的编程中实在太方便了，而且，适用性上几乎没有成本，你的定义部分代码完全不需要因为这套工具而作任何改动，这套工具完全是“使用时”的一种可选形式。</p>
 <p>那时我想的就是，如果在遍地是 <em>callback</em> 的 Javascript 中也有这样的东西可用就好了。后来每每跟人谈论起 js 中的回调控制工具时，我都会提到老赵之前做的 <em>wind.js</em> <a href="https://github.com/JeffreyZhao/wind" target="_blank" rel="external">https://github.com/JeffreyZhao/wind</a> ，这东西牛逼爆了。生成器是一个语法机制，在没有生成器的情况下， <em>wind.js</em> 自己作编译，实现了 CPS 变换的功能，我觉得这几乎是原有 js 语法规则基础上，解决异步回调的结构控制问题的极限了。（不过好像 js 社区更热衷于 Promise 这种程度的工具，真是不能理解）</p>
 <p>后来 js 新的标准中，加入了“生成器 Generator”这个机制， Chrome 和 Firefox 目前也都支持了。前段时间看它时，发现跟 Python 中的生成器工作方式基本是一样的，只有“返回值”那块，js 是用一个对象包装了一下。于是，我就想，把 Tornado 中的 <code>gen.py</code> 这套工具在 js 中实现吧。</p>
 <p>Tornado 的 <code>gen.py</code> ，使用时有用到 Python 的另一个语法机制，“装饰器 Decorator”，但装饰器只是一个语法糖， js 中没有这个东西，不影响 <code>gen.py</code> 的功能实现，只是写出来没那么好看而已。</p>
@@ -313,7 +320,7 @@ var _hmt = _hmt || [];
 
 
 
-    <a data-url="http://alifgt.github.io/2016/06/30/js-generator/" data-id="ciq23qigq000263ntuaag6xx2" class="article-share-link"><i class="fa fa-share"></i>分享到</a>
+    <a data-url="http://alifgt.github.io/2016/06/30/js-generator/" data-id="ciq24gtku00029knth7t3q8z5" class="article-share-link"><i class="fa fa-share"></i>分享到</a>
 <script>
     (function ($) {
         $('body').on('click', function() {
@@ -495,7 +502,7 @@ var _hmt = _hmt || [];
                             <a href="/2016/06/30/js-generator/" class="thumbnail">
     
     
-        <span class="thumbnail-image thumbnail-none"></span>
+        <span style="background-image:url(https://img.alicdn.com/tps/TB15xjYKFXXXXa0XXXXXXXXXXXX-700-400.png)" alt="使用生成器展平异步回调结构，JS篇" class="thumbnail-image"></span>
     
     
 </a>
