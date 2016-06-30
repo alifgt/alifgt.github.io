@@ -1,0 +1,585 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    
+    <title>Javascript中的上下文，我认识的三个阶段 | FGT</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+        <meta name="keywords" content="js" />
+    
+    <meta name="description" content="js 中的 上下文 Context，可以说是一个，你即使不知道，没听过，也不影响你继续写 js 代码的一个概念。但是，它又确确实实是无所不在的一个东西，是的，无所不在。
+从我自己的经验来看，对上下文的认识，算是分成了三个阶段，每一个阶段，都让我从外在的表现中，理解了一些更本质上的东西。
+第一阶段，不知我最开始接触 js 的时候，看到了它的 new ，看到了它的 this ，很自然地会把 js 和其">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Javascript中的上下文，我认识的三个阶段">
+<meta property="og:url" content="http://alifgt.github.io/2016/06/30/js-context/index.html">
+<meta property="og:site_name" content="FGT">
+<meta property="og:description" content="js 中的 上下文 Context，可以说是一个，你即使不知道，没听过，也不影响你继续写 js 代码的一个概念。但是，它又确确实实是无所不在的一个东西，是的，无所不在。
+从我自己的经验来看，对上下文的认识，算是分成了三个阶段，每一个阶段，都让我从外在的表现中，理解了一些更本质上的东西。
+第一阶段，不知我最开始接触 js 的时候，看到了它的 new ，看到了它的 this ，很自然地会把 js 和其">
+<meta property="og:updated_time" content="2016-06-30T03:57:26.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Javascript中的上下文，我认识的三个阶段">
+<meta name="twitter:description" content="js 中的 上下文 Context，可以说是一个，你即使不知道，没听过，也不影响你继续写 js 代码的一个概念。但是，它又确确实实是无所不在的一个东西，是的，无所不在。
+从我自己的经验来看，对上下文的认识，算是分成了三个阶段，每一个阶段，都让我从外在的表现中，理解了一些更本质上的东西。
+第一阶段，不知我最开始接触 js 的时候，看到了它的 new ，看到了它的 this ，很自然地会把 js 和其">
+    
+
+    
+
+    
+
+    <link rel="stylesheet" href="/vendor/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="/vendor/titillium-web/styles.css">
+    <link rel="stylesheet" href="/vendor/source-code-pro/styles.css">
+
+    <link rel="stylesheet" href="/css/style.css">
+
+    <script src="/vendor/jquery/2.0.3/jquery.min.js"></script>
+    
+    
+        <link rel="stylesheet" href="/vendor/fancybox/jquery.fancybox.css">
+    
+    
+        <link rel="stylesheet" href="/vendor/scrollLoading/style.css">
+    
+    
+    
+        <script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "//hm.baidu.com/hm.js?af53e54422ba934b74dc6635952d04bd# enter Baidu Analytics hash key";
+  var s = document.getElementsByTagName("script")[0];
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+    
+
+</head>
+
+<body>
+    <div id="wrap">
+        <header id="header">
+    <div id="header-outer" class="outer">
+        <div class="container">
+            <div class="container-inner">
+                <div id="header-title">
+                    <h1 class="logo-wrap">
+                        <a href="/" class="logo"></a>
+                    </h1>
+                    
+                        <h2 class="subtitle-wrap">
+                            <p class="subtitle">集团客户体验事业群前端团队</p>
+                        </h2>
+                    
+                </div>
+                <div id="header-inner" class="nav-container">
+                    <a id="main-nav-toggle" class="nav-icon fa fa-bars"></a>
+                    <div class="nav-container-inner">
+                        <ul id="main-nav">
+                            
+                                <li class="main-nav-list-item" >
+                                    <a class="main-nav-list-link" href="/">Home</a>
+                                </li>
+                            
+                                <li class="main-nav-list-item" >
+                                    <a class="main-nav-list-link" href="/categories/web开发/">web开发</a>
+                                </li>
+                            
+                                <li class="main-nav-list-item" >
+                                    <a class="main-nav-list-link" href="/categories/移动开发/">移动开发</a>
+                                </li>
+                            
+                                <li class="main-nav-list-item" >
+                                    <a class="main-nav-list-link" href="/categories/资源工具/">资源工具</a>
+                                </li>
+                            
+                                <li class="main-nav-list-item" >
+                                    <a class="main-nav-list-link" href="/categories/D12实验室/">D12实验室</a>
+                                </li>
+                            
+                                <li class="main-nav-list-item" >
+                                    <a class="main-nav-list-link" href="/categories/团队生活/">团队生活</a>
+                                </li>
+                            
+                                <li class="main-nav-list-item" >
+                                    <a class="main-nav-list-link" href="/joinus.html">加入我们</a>
+                                </li>
+                            
+                        </ul>
+                        <nav id="sub-nav">
+                            <div id="search-form-wrap">
+
+    <form class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="搜索" />
+        <button type="submit" class="search-form-submit"></button>
+    </form>
+    <div class="ins-search">
+    <div class="ins-search-mask"></div>
+    <div class="ins-search-container">
+        <div class="ins-input-wrapper">
+            <input type="text" class="ins-search-input" placeholder="想要查找什么..." />
+            <span class="ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: '文章',
+            PAGES: '页面',
+            CATEGORIES: '分类',
+            TAGS: '标签',
+            UNTITLED: '(未命名)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+<script src="/js/insight.js"></script>
+
+</div>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+        <div class="container">
+            <div class="main-body container-inner">
+                <div class="main-body-inner">
+                    <section id="main">
+                        <div class="main-body-header">
+    <h1 class="header">
+    
+    <a class="page-title-link" href="/categories/web开发/">web开发</a>
+    </h1>
+</div>
+                        <div class="main-body-content">
+                            <article id="post-js-context" class="article article-single article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
+        
+            <header class="article-header">
+                
+    
+        <h1 class="article-title" itemprop="name">
+        Javascript中的上下文，我认识的三个阶段
+        </h1>
+    
+
+            </header>
+        
+        <div class="article-subtitle">
+            <a href="/2016/06/30/js-context/" class="article-date">
+    <time datetime="2016-06-30T03:43:43.000Z" itemprop="datePublished">2016-06-30</time>
+</a>
+            
+    <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/js/">js</a></li></ul>
+
+            &nbsp;&nbsp;一狂
+
+        </div>
+        <div class="article-entry" itemprop="articleBody">
+            <p>js 中的 <em>上下文 Context</em>，可以说是一个，你即使不知道，没听过，也不影响你继续写 js 代码的一个概念。但是，它又确确实实是无所不在的一个东西，是的，无所不在。</p>
+<p>从我自己的经验来看，对上下文的认识，算是分成了三个阶段，每一个阶段，都让我从外在的表现中，理解了一些更本质上的东西。</p>
+<h1 id="第一阶段，不知"><a href="#第一阶段，不知" class="headerlink" title="第一阶段，不知"></a>第一阶段，不知</h1><p>我最开始接触 js 的时候，看到了它的 <code>new</code> ，看到了它的 <code>this</code> ，很自然地会把 js 和其它的一些 OOP 语言等同起来看待，并且，好像，也是这么回事。比如：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> Class = <span class="function"><span class="keyword">function</span>(<span class="params">a</span>)</span>&#123;</span><br><span class="line">  <span class="keyword">this</span>.a = a;</span><br><span class="line">  <span class="keyword">this</span>.add = <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">    <span class="keyword">this</span>.a++;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> ins = <span class="keyword">new</span> Class(<span class="number">1</span>);</span><br><span class="line">ins.add();</span><br><span class="line"><span class="built_in">console</span>.log(ins.a); <span class="comment">//2</span></span><br></pre></td></tr></table></figure>
+<p>上面的代码，可以按预期的那样，最后得到 <code>2</code> 的输出。</p>
+<p>但是，如果仅仅是 <em>类，实例</em> 这种层面的认识，我无法解释下面的问题：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> ins = <span class="keyword">new</span> Class(<span class="number">1</span>);</span><br><span class="line"><span class="keyword">var</span> func = ins.add;</span><br><span class="line">func();</span><br><span class="line"><span class="built_in">console</span>.log(ins.a); <span class="comment">//1</span></span><br></pre></td></tr></table></figure>
+<p>甚至解释不清楚下面的代码：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> obj = &#123;</span><br><span class="line">  a: <span class="number">1</span>,</span><br><span class="line">  add: <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">    <span class="keyword">this</span>.a++;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line">obj.add();</span><br><span class="line"><span class="built_in">console</span>.log(obj.a); <span class="comment">//2</span></span><br></pre></td></tr></table></figure>
+<p>这里可没有 <em>类</em> ，也没有 <em>实例</em> 。</p>
+<p>我上面的最开始对 js 的认识当中，局限就在于，把 <code>this</code> 理解成了 <em>实例</em> 。也许在其它语言中（比如 Python 常用的实例方法第一个参数 <code>self</code>），是这样。但是在 js 中， <code>this</code> 跟 <em>实例</em> 完全没有关系。</p>
+<h1 id="第二阶段，this"><a href="#第二阶段，this" class="headerlink" title="第二阶段，this"></a>第二阶段，this</h1><p>当我明白问题出在 <code>this</code> 上，或者说，当我终于理解了 <code>this</code> 这个东西之后，上面的代码，再也不会困扰我了。</p>
+<p>我知道了， js 中有一个东西叫 <em>上下文</em> ，可惜的是，这时，我对上下文的概念，仅仅停留在 <code>this</code> 上。</p>
+<p>这时我的理解是： <code>this</code> 表示的是，函数调用时的 <em>上下文</em> 。</p>
+<p>说得详细一点，就是 <code>this</code> 不是表示的 <em>实例</em> ，而是函数调用时的 <em>上下文</em> 。 <em>上下文</em> 这个东西，默认是 <code>window</code> ，即 <em>全局</em> 。但是，你可以明确地为函数指定一个 <em>上下文</em> 。回到 <code>this</code> 上，就是在定义时你根本不知道 <code>this</code> 是什么，因为在调用时，它可以是任何东西（因为 <em>上下文</em> 是可以人为指定的）。</p>
+<p>回到刚开始的代码：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> Class = <span class="function"><span class="keyword">function</span>(<span class="params">a</span>)</span>&#123;</span><br><span class="line">  <span class="keyword">this</span>.a = a;</span><br><span class="line">  <span class="keyword">this</span>.add = <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">    <span class="keyword">this</span>.a++;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> ins = <span class="keyword">new</span> Class(<span class="number">1</span>);</span><br><span class="line">ins.add();</span><br><span class="line"><span class="built_in">console</span>.log(ins.a); <span class="comment">//2</span></span><br></pre></td></tr></table></figure>
+<p>这段代码的结构之所以是 <code>2</code> ，不是因为 <em>实例</em> ，而是因为 <em>上下文</em> 。</p>
+<p>首先说一下 <code>new</code> 。 <code>new</code> 在 js 中，不考虑原型链它的作用，相当于是先创建了一个空的对象，然后把这个空的对象，作为 <em>构造函数</em> 的 <em>上下文</em> ，再去执行 <em>构造函数</em> ，最后再返回这个当初的空对象。即：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> what_new = <span class="function"><span class="keyword">function</span>(<span class="params">func, a</span>)</span>&#123;</span><br><span class="line">  <span class="keyword">var</span> context = &#123;&#125;;</span><br><span class="line">  func.apply(context, [a]);</span><br><span class="line">  <span class="keyword">return</span> context;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> Class = <span class="function"><span class="keyword">function</span>(<span class="params">a</span>)</span>&#123;</span><br><span class="line">  <span class="keyword">this</span>.a = a;</span><br><span class="line">  <span class="keyword">this</span>.add = <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">    <span class="keyword">this</span>.a++;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> ins = what_new(Class, <span class="number">1</span>);</span><br><span class="line">ins.add();</span><br><span class="line"><span class="built_in">console</span>.log(ins.a);</span><br></pre></td></tr></table></figure>
+<p>当然， <code>new</code> 除了上面的 <code>func.apply</code> 的作用之外， <strong>它还会处理原型链</strong> ，这里就不介绍了。上面的代码仅是为了说明 <code>new</code> 对于所谓的构造函数做了什么事。</p>
+<p>有了上下文，就不难解释 <code>ins</code> 这个东西了。所谓的构造函数，只是在指定了 <code>this</code> 到底是哪一个对象之后，作了相应的赋值操作而已，最后得到这个对象的返回，经过了一些赋值操作，对象中就有了新的东西了。</p>
+<p>同样，对于一个在定义时包含了 <code>this</code> 的函数，比如前面的例子：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> obj = &#123;</span><br><span class="line">  a: <span class="number">1</span>,</span><br><span class="line">  add: <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">    <span class="keyword">this</span>.a++;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>如果来一句：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> func = obj.add;</span><br><span class="line">func(); <span class="comment">//undefined</span></span><br><span class="line">func.apply(&#123;a: <span class="number">0</span>&#125;) <span class="comment">//1</span></span><br></pre></td></tr></table></figure>
+<p>这些都很容易明白了。 js 中的函数，都是一些很单纯的函数，所有的函数跟它在哪里定义完全没有关系（考虑闭包的情况除外）。所以上面的代码，虽然 <code>add</code> 函数是写在 <code>obj</code> 中的，但是，它跟你在 <code>window</code> 中写一个函数是 <strong>完全一样</strong> 的：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> add = <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;<span class="keyword">this</span>.a++&#125;</span><br><span class="line"><span class="keyword">var</span> obj = &#123;</span><br><span class="line">  a: <span class="number">1</span>,</span><br><span class="line">  add: add</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>既然 <code>add</code> 函数中有 <code>this</code> ，那么这个函数执行时的行为，就要小心一点了。所以上面明确地指定了一个上下文给它 <code>func.apply({a: 0})</code> 。</p>
+<p>还是回到开始的代码：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> obj = &#123;</span><br><span class="line">  a: <span class="number">1</span>,</span><br><span class="line">  add: <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">    <span class="keyword">this</span>.a++;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>对于上面的代码，我知道了：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">obj.add();</span><br></pre></td></tr></table></figure>
+<p>和：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> func = obj.add();</span><br><span class="line">func();</span><br></pre></td></tr></table></figure>
+<p>会得到不一样的结果。并且知道，这个不一样的结果是上下文引起的，还知道，后者 <code>func()</code> 执行时，上下文是全局的 <code>window</code> 了。</p>
+<p>我虽然知道是这样的一个情况，但是，为什么？执行同一个函数结果怎么就不一样了呢？</p>
+<p>我在很长时间里，都没有去细细考虑过这个问题。不过，因为知道了“上下文是一个在定义时无意义，其具体值完全由执行时决定”这点之后，我都尽量避免去使用 <code>this</code> ，实在要用，在调用时，我都会通过 <code>apply</code> 或 <code>call</code> 明确指定上下文，这样，至少不会踩坑里。</p>
+<h1 id="第三阶段，一切都是上下文"><a href="#第三阶段，一切都是上下文" class="headerlink" title="第三阶段，一切都是上下文"></a>第三阶段，一切都是上下文</h1><p>某天，我在网上看到了这样一段代码（原始出处不知道）：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> bind = <span class="built_in">Function</span>.prototype.call.bind(<span class="built_in">Function</span>.prototype.bind)</span><br></pre></td></tr></table></figure>
+<p>这个新定义的 <code>bind</code> 函数具体做什么事先不管它，我好奇的是 <code>call.bind()</code> 这个调用。因为 <code>call</code> 这个函数，之前一直以为它是 <code>Function</code> 对象的一个方法（它本身也是一个函数），但是，如果按“对象的方法”这个角度去想的话，那对它绑定一个上下文（ <code>bind()</code> 的调用 ）不就完全没有意义了么？（因为对象的方法应该是跟上下文无关的）</p>
+<p>后来看到了这篇文章， <a href="http://www.html-js.com/article/JavaScript-functional-programming-in-Javascript-Bind-Call-and-Apply" target="_blank" rel="external">http://www.html-js.com/article/JavaScript-functional-programming-in-Javascript-Bind-Call-and-Apply</a></p>
+<p>其中以 <code>slice</code> 函数举的例子让我恍然大悟：</p>
+<ul>
+<li>上下文控制不仅仅是 <code>apply</code> / <code>call</code>，所有的点 <code>.</code> ，都是在指定上下文。</li>
+<li>js 中的函数比我想像的还要纯，根本没有“对象中的方法”这个东西，即使是“原生对象”中。（它仅仅起一个名字空间的作用）</li>
+</ul>
+<p>所有的函数调用，都有两层意义，比如 <code>c.f()</code>：</p>
+<ul>
+<li><code>f</code> 这个函数，它在 <code>c</code> 中。（名字空间的问题）</li>
+<li>把 <code>c</code> 作为 <code>f</code> 的上下文，去调用 <code>f</code> 。（前提是 <code>f</code> 没有绑定过上下文）</li>
+</ul>
+<p>如果 <code>c</code> 没有，则默认是 <code>window</code> 。</p>
+<p>所有的，js 中所有的函数调用，都是如此。即使是 <code>f.call(context, x)</code> ，我之前只看到了第一层意义（ <code>f</code> 中有一个 <code>call</code> 方法可以使用），则忽略了第二层意义 —— 把 <code>f</code> 作为 <code>call</code> 的上下文。</p>
+<p>简单来说，我们可以相像 <code>call</code> 这个函数，它的代码大概是这样的（可变参数的问题先不管）：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> call = <span class="function"><span class="keyword">function</span>(<span class="params">context, a</span>)</span>&#123;</span><br><span class="line">    <span class="keyword">var</span> new_func = <span class="keyword">this</span>.bind(context);</span><br><span class="line">    retur new_func(a);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>它的作用，就是把 <em>指定的上下文（context）</em> 作为 <em>自己的上下文（this）</em> 的 <em>上下文</em> ，然后再调用 <em>自己的上下文（绑定上下文之后的 this）</em> 。</p>
+<p>上面一句话有些纠结哈，主要搞明白多种上下文的关系， <code>f.call(context, x)</code> 当中， <em>自己的上下文</em> 上面是 <code>f</code> 。 <em>指定的上下文</em> 上面是 <code>context</code> 。</p>
+<p>再看 <code>f.call(context, x)</code> 这个代码，结合“函数是单纯”这点，我想到，即使是原生对象的那些方法， <strong>也不过是把一些单纯的函数放到了 prototype 中而已</strong> ，比如把 <code>call</code> 函数放到了 <code>Function.prototype</code> 当中。</p>
+<p>至此，再看 <code>c.f()</code> ， <code>a.b.c()</code> 这些，不要去想是调用 <code>c</code> 对象中的 <code>f</code> 方法（这么说没错，但是名字空间的问题是显而易见的嘛），而是想成，调用时把 <code>c</code> 作为 <code>f</code> 的上下文。</p>
+<p>好了，回到开始的那行例子：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> new_bind = <span class="built_in">Function</span>.prototype.call.bind(<span class="built_in">Function</span>.prototype.bind)</span><br></pre></td></tr></table></figure>
+<p>这个就非常好理解了（为了描述方便，我改成 <code>new_bind</code> 了），把 <code>bind</code> 作为上下文绑定到 <code>call</code> 中。</p>
+<p>这里注意一下，绑定了上下文的 <code>call</code> 函数，还是 <code>call</code> 函数，但是 “此 <code>call</code> 已经非彼 <code>call</code>” 了。</p>
+<p>所以：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">new_bind != <span class="built_in">Function</span>.prototype.call</span><br></pre></td></tr></table></figure>
+<p>虽然调用形式上， <code>new_bind</code> 和 <code>call</code> 完全一样，但是他们的上下文行为不一样：</p>
+<ul>
+<li><code>call</code> 是未绑定状态，所以 <code>f.call()</code> 会在执行时把 <code>f</code> 作为上下文绑定到 <code>call</code> 函数中。</li>
+<li><code>new_bind</code> 是已绑定状态，所以 <code>f.new_bind()</code> 对 <code>new_bind()</code> 的执行完全没影响。</li>
+</ul>
+<p>我们可以以这样的流程来帮助我们理解：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">new_bind =&gt; call =&gt; bind.call =&gt; bind.call(f, context) =&gt; f.bind(context)</span><br></pre></td></tr></table></figure>
+<p>一步一步解释：</p>
+<p>: <code>new_bind =&gt; call</code><br>    <code>new_bind</code> 在形式上就是 <code>call</code> 。</p>
+<p>: <code>call =&gt; bind.call</code><br>    只是这个 <code>call</code> ，是指定了 <code>bind</code> 作为它的上下文的。既然是 <code>bind</code> 作为它的上下文，那我们可以写成是 <code>bind.call</code> 的样式。</p>
+<p>: <code>bind.call(f, context) =&gt; f.bind(context)</code><br>    <code>new_bind</code> 的调用 <code>new_bind(f, context)</code> 就相当于是 <code>bind.call(f, context)</code> 。考虑 <code>call</code> 函数之前的行为： <code>f.call(context, a)</code> 是把 <code>context</code> 作为 <code>f</code> 的上下文，也就是 <code>context.f(a)</code> ，那么 <code>bind.call(f, context)</code> 对应的就是 <code>f.bind(context)</code> 。</p>
+<p>: <code>f.bind(context)</code><br>    不用多说了吧，把 <code>context</code> 绑定到 <code>f</code> 上，返回一个绑定了上下文的新函数。</p>
+<p>完全是最基本的代数推导嘛，形式上，上下文前置总是没有问题的。</p>
+<h1 id="结语"><a href="#结语" class="headerlink" title="结语"></a>结语</h1><p>我一直认同，要理解 js 的东西，从函数式语言入手，非常合适。硬要往面向对象的那套东西上套，太纠结了（我不管概念上到底什么样才叫面向对象，原生没有类定义，没有继承，没有实例化，就别扯这些就完了。对了，我认为原型追溯那不叫继承哈）。</p>
+<p>当然，我不知道弄明白了最后那个“代数推导”到底有什么好处，也许没有，因为就算不明白这些也不影响我写了很多可以正常工作的 js 代码嘛。只是，我以后再写，思路上的可能会有一些不同了。比如代码组织的形式上，可以尝试把很多的小函数做到不同的“名字空间”中，然后再在业务层面，通过 <em>Mixin</em> 来拼出不同的业务对象。这些函数中可能到处充斥着 <code>this</code> ，我能控制好它们了。</p>
+
+        </div>
+        <footer class="article-footer">
+            
+
+
+
+    <a data-url="http://alifgt.github.io/2016/06/30/js-context/" data-id="ciq1ror1k00029ant0k6w3c82" class="article-share-link"><i class="fa fa-share"></i>分享到</a>
+<script>
+    (function ($) {
+        $('body').on('click', function() {
+            $('.article-share-box.on').removeClass('on');
+        }).on('click', '.article-share-link', function(e) {
+            e.stopPropagation();
+
+            var $this = $(this),
+                url = $this.attr('data-url'),
+                encodedUrl = encodeURIComponent(url),
+                id = 'article-share-box-' + $this.attr('data-id'),
+                offset = $this.offset(),
+                box;
+
+            if ($('#' + id).length) {
+                box = $('#' + id);
+
+                if (box.hasClass('on')){
+                    box.removeClass('on');
+                    return;
+                }
+            } else {
+                var html = [
+                    '<div id="' + id + '" class="article-share-box">',
+                        '<input class="article-share-input" value="' + url + '">',
+                        '<div class="article-share-links">',
+                            '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+                            '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+                            '<a href="http://pinterest.com/pin/create/button/?url=' + encodedUrl + '" class="article-share-pinterest" target="_blank" title="Pinterest"></a>',
+                            '<a href="https://plus.google.com/share?url=' + encodedUrl + '" class="article-share-google" target="_blank" title="Google+"></a>',
+                        '</div>',
+                    '</div>'
+                ].join('');
+
+              box = $(html);
+
+              $('body').append(box);
+            }
+
+            $('.article-share-box.on').hide();
+
+            box.css({
+                top: offset.top + 25,
+                left: offset.left
+            }).addClass('on');
+
+        }).on('click', '.article-share-box', function (e) {
+            e.stopPropagation();
+        }).on('click', '.article-share-box-input', function () {
+            $(this).select();
+        }).on('click', '.article-share-box-link', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+
+            window.open(this.href, 'article-share-box-window-' + Date.now(), 'width=500,height=450');
+        });
+    })(jQuery);
+</script>
+
+        </footer>
+    </div>
+</article>
+
+    <section id="comments">
+    
+        
+    <div id="disqus_thread">
+        <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    </div>
+
+    
+    </section>
+
+                        </div>
+                    </section>
+                    <aside id="sidebar">
+    <a class="sidebar-toggle" title="Expand Sidebar"><i class="toggle icon"></i></a>
+    <div class="sidebar-top">
+        <p>关注我们 :</p>
+        <ul class="social-links">
+            
+                
+                <li>
+                    <a class="social-tooltip" title="twitter" href="/" target="_blank">
+                        <i class="icon fa fa-twitter"></i>
+                    </a>
+                </li>
+                
+            
+                
+                <li>
+                    <a class="social-tooltip" title="facebook" href="/" target="_blank">
+                        <i class="icon fa fa-facebook"></i>
+                    </a>
+                </li>
+                
+            
+                
+                <li>
+                    <a class="social-tooltip" title="github" href="https://github.com/alifgt/" target="_blank">
+                        <i class="icon fa fa-github"></i>
+                    </a>
+                </li>
+                
+            
+                
+                <li>
+                    <a class="social-tooltip" title="weibo" href="/" target="_blank">
+                        <i class="icon fa fa-weibo"></i>
+                    </a>
+                </li>
+                
+            
+                
+                <li>
+                    <a class="social-tooltip" title="rss" href="/" target="_blank">
+                        <i class="icon fa fa-rss"></i>
+                    </a>
+                </li>
+                
+            
+        </ul>
+    </div>
+    
+        
+<nav id="article-nav">
+    
+        <a href="/2016/06/30/js-generator/" id="article-nav-newer" class="article-nav-link-wrap">
+        <strong class="article-nav-caption">下一篇</strong>
+        <p class="article-nav-title">
+        
+            使用生成器展平异步回调结构，JS篇
+        
+        </p>
+        <i class="icon fa fa-chevron-right" id="icon-chevron-right"></i>
+    </a>
+    
+    
+</nav>
+
+    
+    <div class="widgets-container">
+        
+            
+                
+    <div class="widget-wrap">
+        <h3 class="widget-title">最新文章</h3>
+        <div class="widget">
+            <ul id="recent-post" class="">
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/2016/06/30/js-generator/" class="thumbnail">
+    
+    
+        <span class="thumbnail-image thumbnail-none"></span>
+    
+    
+</a>
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/web开发/">web开发</a></p>
+                            <p class="item-title"><a href="/2016/06/30/js-generator/" class="title">使用生成器展平异步回调结构，JS篇</a></p>
+                            <p class="item-date"><time datetime="2016-06-30T03:43:44.000Z" itemprop="datePublished">2016-06-30</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/2016/06/30/js-context/" class="thumbnail">
+    
+    
+        <span class="thumbnail-image thumbnail-none"></span>
+    
+    
+</a>
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/web开发/">web开发</a></p>
+                            <p class="item-title"><a href="/2016/06/30/js-context/" class="title">Javascript中的上下文，我认识的三个阶段</a></p>
+                            <p class="item-date"><time datetime="2016-06-30T03:43:43.000Z" itemprop="datePublished">2016-06-30</time></p>
+                        </div>
+                    </li>
+                
+            </ul>
+        </div>
+    </div>
+
+            
+                
+    <div class="widget-wrap widget-list">
+        <h3 class="widget-title">分类</h3>
+        <div class="widget">
+            <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/web开发/">web开发</a><span class="category-list-count">2</span></li></ul>
+        </div>
+    </div>
+
+
+            
+                
+    <div class="widget-wrap widget-list">
+        <h3 class="widget-title">归档</h3>
+        <div class="widget">
+            <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/06/">六月 2016</a><span class="archive-list-count">2</span></li></ul>
+        </div>
+    </div>
+
+
+            
+                
+    <div class="widget-wrap widget-list">
+        <h3 class="widget-title">标签</h3>
+        <div class="widget">
+            <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/js/">js</a><span class="tag-list-count">1</span></li></ul>
+        </div>
+    </div>
+
+
+            
+                
+    <div class="widget-wrap widget-float">
+        <h3 class="widget-title">标签云</h3>
+        <div class="widget tagcloud">
+            <a href="/tags/js/" style="font-size: 10px;">js</a>
+        </div>
+    </div>
+
+
+            
+                
+    <div class="widget-wrap widget-list">
+        <h3 class="widget-title">链接</h3>
+        <div class="widget">
+            <ul>
+                
+                    <li>
+                        <a href="http://hexo.io">Hexo</a>
+                    </li>
+                
+            </ul>
+        </div>
+    </div>
+
+
+            
+        
+    </div>
+</aside>
+                </div>
+            </div>
+        </div>
+        <footer id="footer">
+    <div class="container">
+        <div class="container-inner">
+            <a id="back-to-top" href="javascript:;"><i class="icon fa fa-angle-up"></i></a>
+            <div class="credit">
+                <h1 class="logo-wrap">
+                    <a href="/" class="logo"></a>
+                </h1>
+                <p>&copy; 2016 Jessie Han</p>
+                <p>Powered by <a href="//hexo.io/" target="_blank">Hexo</a>. Theme by <a href="//github.com/ppoffice" target="_blank">PPOffice</a></p>
+            </div>
+        </div>
+    </div>
+</footer>
+        
+    
+    <script>
+    var disqus_shortname = 'alifgtblog';
+    
+    
+    var disqus_url = 'http://alifgt.github.io/2016/06/30/js-context/';
+    
+    (function() {
+    var dsq = document.createElement('script');
+    dsq.type = 'text/javascript';
+    dsq.async = true;
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+    </script>
+
+
+
+    
+        <script src="/vendor/fancybox/jquery.fancybox.pack.js"></script>
+    
+
+    
+        <script src="/vendor/scrollLoading/jquery.scrollLoading.js"></script>
+        <script src="/vendor/scrollLoading/main.js"></script>
+    
+
+
+<!-- Custom Scripts -->
+<script src="/js/main.js"></script>
+
+    </div>
+</body>
+</html>
