@@ -1,0 +1,640 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    
+    <title>React试点开发总结 | FGT</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+        <meta name="keywords" content="react" />
+    
+    <meta name="description" content="前段时间需要开发一个流程化接口管理的chrome插件,用来对线上和线下mock数据进行管理,劫持和替换,同时需要对过滤的请求状态进行实时的刷新,之前有了解到react在视图层的渲染上有着不错的效率表现,于是趁着这个项目,利用react+socket.io进行了试点开发,上周刚好完成了第一个版本,于是决定结合这个项目跟大家分享一下利用react开发的实际体验以及踩过的坑.
+首先,什么是react?">
+<meta property="og:type" content="article">
+<meta property="og:title" content="React试点开发总结">
+<meta property="og:url" content="http://alifgt.github.io/2016/07/07/react试用体验/index.html">
+<meta property="og:site_name" content="FGT">
+<meta property="og:description" content="前段时间需要开发一个流程化接口管理的chrome插件,用来对线上和线下mock数据进行管理,劫持和替换,同时需要对过滤的请求状态进行实时的刷新,之前有了解到react在视图层的渲染上有着不错的效率表现,于是趁着这个项目,利用react+socket.io进行了试点开发,上周刚好完成了第一个版本,于是决定结合这个项目跟大家分享一下利用react开发的实际体验以及踩过的坑.
+首先,什么是react?">
+<meta property="og:image" content="https://img.alicdn.com/tps/TB1.z0wKVXXXXauXFXXXXXXXXXX-1000-563.png">
+<meta property="og:updated_time" content="2016-07-07T08:03:09.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="React试点开发总结">
+<meta name="twitter:description" content="前段时间需要开发一个流程化接口管理的chrome插件,用来对线上和线下mock数据进行管理,劫持和替换,同时需要对过滤的请求状态进行实时的刷新,之前有了解到react在视图层的渲染上有着不错的效率表现,于是趁着这个项目,利用react+socket.io进行了试点开发,上周刚好完成了第一个版本,于是决定结合这个项目跟大家分享一下利用react开发的实际体验以及踩过的坑.
+首先,什么是react?">
+<meta name="twitter:image" content="https://img.alicdn.com/tps/TB1.z0wKVXXXXauXFXXXXXXXXXX-1000-563.png">
+    
+
+    
+
+    
+
+    <link rel="stylesheet" href="/vendor/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="/vendor/titillium-web/styles.css">
+    <link rel="stylesheet" href="/vendor/source-code-pro/styles.css">
+
+    <link rel="stylesheet" href="/css/style.css">
+
+    <script src="/vendor/jquery/2.0.3/jquery.min.js"></script>
+    
+    
+        <link rel="stylesheet" href="/vendor/fancybox/jquery.fancybox.css">
+    
+    
+        <link rel="stylesheet" href="/vendor/scrollLoading/style.css">
+    
+    
+    
+        <script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "//hm.baidu.com/hm.js?af53e54422ba934b74dc6635952d04bd# enter Baidu Analytics hash key";
+  var s = document.getElementsByTagName("script")[0];
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+    
+
+</head>
+
+<body>
+    <div id="wrap">
+        <header id="header">
+    <div id="header-outer" class="outer">
+        <div class="container">
+            <div class="container-inner">
+                <div id="header-title">
+                    <h1 class="logo-wrap">
+                        <a href="/" class="logo"></a>
+                    </h1>
+                    
+                        <h2 class="subtitle-wrap">
+                            <p class="subtitle">集团客户体验事业群前端团队</p>
+                        </h2>
+                    
+                </div>
+                <div id="header-inner" class="nav-container">
+                    <a id="main-nav-toggle" class="nav-icon fa fa-bars"></a>
+                    <div class="nav-container-inner">
+                        <ul id="main-nav">
+                            
+                                <li class="main-nav-list-item" >
+                                    <a class="main-nav-list-link" href="/">Home</a>
+                                </li>
+                            
+                                <li class="main-nav-list-item" >
+                                    <a class="main-nav-list-link" href="/categories/web开发/">web开发</a>
+                                </li>
+                            
+                                <li class="main-nav-list-item" >
+                                    <a class="main-nav-list-link" href="/categories/移动开发/">移动开发</a>
+                                </li>
+                            
+                                <li class="main-nav-list-item" >
+                                    <a class="main-nav-list-link" href="/categories/资源工具/">资源工具</a>
+                                </li>
+                            
+                                <li class="main-nav-list-item" >
+                                    <a class="main-nav-list-link" href="/categories/12D实验室/">12D实验室</a>
+                                </li>
+                            
+                                <li class="main-nav-list-item" >
+                                    <a class="main-nav-list-link" href="/categories/IRIS翻译社/">IRIS翻译社</a>
+                                </li>
+                            
+                                <li class="main-nav-list-item" >
+                                    <a class="main-nav-list-link" href="/categories/团队生活/">团队生活</a>
+                                </li>
+                            
+                                <li class="main-nav-list-item" >
+                                    <a class="main-nav-list-link" href="/joinus.html">加入我们</a>
+                                </li>
+                            
+                        </ul>
+                        <nav id="sub-nav">
+                            <div id="search-form-wrap">
+
+    <form class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="搜索" />
+        <button type="submit" class="search-form-submit"></button>
+    </form>
+    <div class="ins-search">
+    <div class="ins-search-mask"></div>
+    <div class="ins-search-container">
+        <div class="ins-input-wrapper">
+            <input type="text" class="ins-search-input" placeholder="想要查找什么..." />
+            <span class="ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: '文章',
+            PAGES: '页面',
+            CATEGORIES: '分类',
+            TAGS: '标签',
+            UNTITLED: '(未命名)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+<script src="/js/insight.js"></script>
+
+</div>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+        <div class="container">
+            <div class="main-body container-inner">
+                <div class="main-body-inner">
+                    <section id="main">
+                        <div class="main-body-header">
+    <h1 class="header">
+    
+    <a class="page-title-link" href="/categories/web开发/">web开发</a>
+    </h1>
+</div>
+                        <div class="main-body-content">
+                            <article id="post-react试用体验" class="article article-single article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
+        
+            <header class="article-header">
+                
+    
+        <h1 class="article-title" itemprop="name">
+        React试点开发总结
+        </h1>
+    
+
+            </header>
+        
+        <div class="article-subtitle">
+            <a href="/2016/07/07/react试用体验/" class="article-date">
+    <time datetime="2016-07-07T07:58:33.000Z" itemprop="datePublished">2016-07-07</time>
+</a>
+            
+    <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/react/">react</a></li></ul>
+
+            &nbsp;&nbsp;汐辰
+
+        </div>
+        <div class="article-entry" itemprop="articleBody">
+            <p><img src="https://img.alicdn.com/tps/TB1.z0wKVXXXXauXFXXXXXXXXXX-1000-563.png" alt=""></p>
+<p>前段时间需要开发一个流程化接口管理的chrome插件,用来对线上和线下mock数据进行管理,劫持和替换,同时需要对过滤的请求状态进行实时的刷新,之前有了解到react在视图层的渲染上有着不错的效率表现,于是趁着这个项目,利用react+socket.io进行了试点开发,上周刚好完成了第一个版本,于是决定结合这个项目跟大家分享一下利用react开发的实际体验以及踩过的坑.</p>
+<p>首先,什么是react?官方称React更加倾向于做传统MVC的View层,本质上,可以把react看成是一个”状态机”,它帮助开发者管理复杂的随时间而变化的状态,而开发者只需要根据不同的状态来写每个组件对应的逻辑就可以了,而react最关心的只有两件事:</p>
+<ul>
+<li>更新DOM</li>
+<li>响应事件</li>
+</ul>
+<p>但是react对于视图的刷新又是非常高效的，主要依赖两件<code>大杀器</code>：组件驱动开发和虚拟DOM，下面将对react里边的几个核心的东西分开进行介绍.</p>
+<h3 id="组件驱动开发"><a href="#组件驱动开发" class="headerlink" title="组件驱动开发"></a>组件驱动开发</h3><p>前端组件化其实很早就已经出来了,而react则是把它做到了极致，对react应用而言，尽量把一个页面的东西拆得越碎通常是越容易维护及理解的，而且react的设计初衷似乎也不是奔着写出最精简优美的代码去的，比如写同样一个应用用react和用avalon或者vuejs来写通常来说react的代码量会比后者多，但是用react写出来的却是最容易维护的，因为它把页面上的东西拆得很细独立成了一个组件，做到了充分的解耦。在我写的这个chrome插件里边，单一个popup页面我也是把他拆分成了4个组件，如下图：</p>
+<h3 id="单向数据流"><a href="#单向数据流" class="headerlink" title="单向数据流"></a>单向数据流</h3><p>既然说到了拆分成多个组件，那么react的组件间通信又是怎么样的呢？react并没有做成双向通信那么自由，而是单向的，既从父节点传到子节点（top-down rendering）有人可能会说：啊，太low了吧，现在都流行MVVM了！但是我想了一下其实做出这个限制也是有原因的，通常对一个新手来说，一个框架太过于自由，往往是hold不住的，不知道从何入手，不知道怎么写才是最优的，而像如果之前用angular做过大型应用的老手来说这些限制其实是不必要的，因为就算你不给出规范和限制，他们同样知道中间的流程是怎么样的.但是我觉得react中的限制做的刚刚好，既没有太严格，同时保留了最基本的.</p>
+<p>构成单向数据流主要依赖两个属性props和state，props是从父级传到子级的属性，通常来说是只读的数据和事件处理器什么的，而state则是组件内部的状态属性，这些状态只能在组件内部进行修改，state改变了之后就会刷新这个state改变的组件及其子组件的视图，中间的流转就是一层一层往下走.所以通常来说我们可以通过使用props传递数据配置以及向子级传递事件处理器进行通信.如下述代码中的handleClick和unmockData就是传给子级用的事件处理器.</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> HomePage = React.createClass(&#123;</span><br><span class="line">    mixins: [StatustoMocksMixin],</span><br><span class="line">    getInitialState: <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">        <span class="keyword">var</span> self = <span class="keyword">this</span>;</span><br><span class="line">        <span class="keyword">var</span> mockStatus = &#123;&#125;;</span><br><span class="line">        feed.getMockStatus(<span class="literal">undefined</span>,<span class="function"><span class="keyword">function</span>(<span class="params">mockStatus</span>) </span>&#123;</span><br><span class="line">            self.setState(&#123;mockStatus: mockStatus&#125;);</span><br><span class="line">        &#125;);</span><br><span class="line">        <span class="keyword">return</span> &#123;mockStatus: mockStatus&#125;;</span><br><span class="line">    &#125;,</span><br><span class="line">    unmockData: <span class="function"><span class="keyword">function</span>(<span class="params">data</span>) </span>&#123;</span><br><span class="line">        <span class="keyword">var</span> self = <span class="keyword">this</span>;</span><br><span class="line">        feed.unmock(data,<span class="function"><span class="keyword">function</span>(<span class="params">mockStatus</span>)</span>&#123;</span><br><span class="line">            self.setState(&#123;mockStatus: mockStatus&#125;);</span><br><span class="line">        &#125;);</span><br><span class="line">    &#125;,</span><br><span class="line">    handleClick: <span class="function"><span class="keyword">function</span>(<span class="params">ev</span>) </span>&#123;</span><br><span class="line">        chrome.tabs.create(&#123;</span><br><span class="line">            url: chrome.extension.getURL(<span class="string">"options.html"</span>)</span><br><span class="line">        &#125;);</span><br><span class="line">        <span class="keyword">return</span>;</span><br><span class="line">    &#125;,</span><br><span class="line">    render: <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;...&#125;</span><br><span class="line">   </span><br><span class="line">   &#125;)</span><br></pre></td></tr></table></figure>
+<h3 id="Virtual-DOM"><a href="#Virtual-DOM" class="headerlink" title="Virtual DOM"></a>Virtual DOM</h3><p>在上一章提到只要state改变，该组件及子组件及其子组件就会进行刷新，既调用他们的render方法，那么如果在根节点调用setState方法，整个react应用都会被重新渲染，这个听起来似乎性能像是很低的样子，但是实际上它不会碰触到真实的DOM，而且通常来说我们有数据更新的时候通常不是在根节点调用setState,而是在子组件中得某个节点调用，如下图，react只会更新渲染子树，而不会渲染其父级，所有的更新都只会出现在与用户产生交互的局部，基本不会产生性能问题，想要对react的<code>diff</code>算法有深入了解的可以参考<a href="http://snip.ly/ywCe#http://calendar.perfplanet.com/2013/diff/" target="_blank" rel="external">这篇文章</a>.像我这个项目就需要实时显示proxy过滤的请求，proxy server每秒钟会给我发个数据包，如果数据包发生变化了，我也只会在变化的局部去更新真实的dom而不是整块重新渲染.</p>
+<h3 id="Mixin"><a href="#Mixin" class="headerlink" title="Mixin"></a>Mixin</h3><p>对，react自带mixin，是解决代码复用的强大工具之一.既然把页面拆得这么碎，可想而知，肯定会有不少代码片段是重复的，而mixin就是解决这个的，为此我在每个大模块下新建了一个mixin的文件，专门放不同组件复用的代码片段.同时react官方也提供了几个mixin插件，比如很多用户抱怨没有双向绑定，就可以用<code>LinkedStateMixin</code>得到妥善的解决，当然它的原理还是利用<code>onChange</code>进行实现的，而不是现在主流MVVM的那种解决方案.</p>
+<h3 id="JSX"><a href="#JSX" class="headerlink" title="JSX"></a>JSX</h3><p>React的另一个重头是JSX，既javascript XML，它和html的语法很相似，但也略有不同，如HTML中的<code>class</code>属性在JSX中为<code>className</code>,还有HTML中得<code>for</code>属性在JSX中则为<code>htmlFor</code>.我们先来看看JSX的几个特点，再来说它的好处：</p>
+<ul>
+<li>每一个JSX都对应一个javascript函数</li>
+<li>JSX不提供也不需要运行时库</li>
+<li>JSX不改变和添加javascript语义</li>
+</ul>
+<p>可以看出用JSX写更加地直观和语义化，并且可以减少不少代码，如果用js来创建元素的话我们可能会这样写：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">render () &#123;</span><br><span class="line">    <span class="keyword">return</span> React.createElement(<span class="string">"div"</span>, <span class="literal">null</span>, <span class="string">"Hello "</span>,</span><br><span class="line">        <span class="keyword">this</span>.props.name);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>而用JSX则只需要：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">render () &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="xml"><span class="tag">&lt;<span class="name">div</span>&gt;</span>Hello &#123;this.props.name&#125;<span class="tag">&lt;/<span class="name">div</span>&gt;</span></span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>非常的简洁干净直观，并且可以使用动态值，如果模板不是很复杂的话，前端模板都可以省了。</p>
+<h3 id="组件生命周期"><a href="#组件生命周期" class="headerlink" title="组件生命周期"></a>组件生命周期</h3><p>组件生命周期没那么多好说的，react在渲染一个组件的时候，有它自己的一套流程，顺序是这样的，下面只是摘录罗列一下，具体的还是去参考<a href="http://facebook.github.io/react/docs/component-specs.html" target="_blank" rel="external">官方文档</a>吧.</p>
+<ul>
+<li><p><code>componentWillMount</code></p>
+<ul>
+<li>该方法会在组件render之前执行，并且永远只执行一次。</li>
+</ul>
+</li>
+<li><p><code>componentDidMount</code></p>
+<ul>
+<li>该方法会在组件加载完毕之后立即执行。此时，组件已经完成了DOM结构的渲染， 并可以通过this.getDOMNode()方法来访问。</li>
+</ul>
+</li>
+<li><p><code>componentWillReceiveProps</code></p>
+<ul>
+<li>组件接收到一个新的prop时会被执行，且该方法在初始render时不会被调用。</li>
+</ul>
+</li>
+<li><p><code>shouldComponentUpdate</code></p>
+<ul>
+<li>在组件接收到新的props或state时被执行。</li>
+</ul>
+</li>
+<li><p><code>componentWillUpdate</code></p>
+<ul>
+<li>在组件接收到新的props或者state但还没有render时被执行。 在初始化时不会被执行。</li>
+</ul>
+</li>
+<li><p><code>componentDidUpdate</code></p>
+<ul>
+<li>在组件完成更新后立即执行。在初始化时不会被执行。 一般会在组件完成更新后被使用。</li>
+</ul>
+</li>
+<li><p><code>componentWillUnMount</code></p>
+<ul>
+<li>在组件从DOM中unmount后立即执行。该方法主要用来执行一些必要的清理任务。</li>
+</ul>
+</li>
+</ul>
+<h3 id="打包工具"><a href="#打包工具" class="headerlink" title="打包工具"></a>打包工具</h3><p>本次开发也尝试了一下新的打包工具Webpack，说到Webpack不得不先提一下Browserify,因为这两个有非常多的相似之处，而Browserify也早于Webpack出来.那么Browserify当时是为了要解决什么问题呢?在前端模块化的前进道路上有两套规范AMD和CMD,而像node.js则是用了CMD的写法,所以当时就有人想,如果前端也用CMD那么前后端代码不是就能复用了吗, Browserify由此诞生,它允许开发者使用node.js的写法写前端的代码,最后把当前JS模块及所依赖的模块打包成一个文件在浏览器端使用.</p>
+<p>而Webpack虽然与Browserify相似,但是功能上却要比Browserify强大的多,比如Browserify只能够用来打包JS文件,而Webpack则是允许如下图这么多格式的打包,并且在开发的过程中不需要安装额外的插件就能做到对文件的实时监测和打包,命令行工具也是放出了足够多的API,比如在本想目中我完成<code>webpack.config.js</code>的编写后运行下方的命令,就可以很方便地协助我进行开发调试:</p>
+<figure class="highlight brainfuck"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">webpack</span> <span class="literal">-</span><span class="literal">-</span><span class="comment">config</span> <span class="comment">config/webpack</span><span class="literal">-</span><span class="comment">dev</span><span class="string">.</span><span class="comment">config</span><span class="string">.</span><span class="comment">js</span> <span class="literal">-</span><span class="literal">-</span><span class="comment">progress</span> <span class="literal">-</span><span class="literal">-</span><span class="comment">profile</span> <span class="literal">-</span><span class="literal">-</span><span class="comment">colors</span> <span class="literal">-</span><span class="literal">-</span><span class="comment">watch</span> <span class="literal">-</span><span class="literal">-</span><span class="comment">display</span><span class="literal">-</span><span class="comment">error</span><span class="literal">-</span><span class="comment">details</span></span><br></pre></td></tr></table></figure>
+<p>同时Webpack对不同文件打包的支持也是需要不同对应的loader,如下方对于jsx我使用的是babel而对于css则是用了style-loader.</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">module</span>: &#123;</span><br><span class="line">    loaders: [&#123;</span><br><span class="line">      test: <span class="regexp">/\.jsx?$/</span>,</span><br><span class="line">      loader: <span class="string">'babel'</span>,</span><br><span class="line">      exclude: [path.join(root, <span class="string">'node_modules'</span>), path.join(context, <span class="string">'node_modules'</span>)]</span><br><span class="line">    &#125;,</span><br><span class="line">    &#123;</span><br><span class="line">      test: <span class="regexp">/\.jpe?g$|\.gif$|\.png$|\.svg$|\.woff$|\.ttf$/</span>,</span><br><span class="line">      loader: <span class="string">'file'</span></span><br><span class="line">    &#125;,</span><br><span class="line">    &#123;</span><br><span class="line">      test: <span class="regexp">/\.css$/</span>,</span><br><span class="line">      loader: ExtractTextPlugin.extract(<span class="string">'style-loader'</span>, <span class="string">'css-loader'</span>)</span><br><span class="line">    &#125;]</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure>
+<p>还有几个不得不提的惊喜是Webpack不仅支持CMD规范还兼容AMD规范,并且Babel这个loader的时候可以完全使用所有的ES6新语法,而在打包的时候它能将ES6转换成可以在浏览器中运行的代码,这点太赞了,这就意味你不仅可以commonJS写模块化代码还能用ES6来写:</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> React = <span class="built_in">require</span>(<span class="string">'react'</span>);</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> MyComponent = React.createClass(&#123;</span><br><span class="line">	<span class="comment">// do something</span></span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line"><span class="built_in">module</span>.exports = MyComponent;</span><br></pre></td></tr></table></figure>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> React <span class="keyword">from</span> <span class="string">'react'</span>;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">MyComponent</span> <span class="keyword">extends</span> <span class="title">React</span>.<span class="title">Component</span> </span>&#123;</span><br><span class="line">	<span class="comment">// do something use es6</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> MyComponent;</span><br></pre></td></tr></table></figure>
+<p>Webpack提供的功能太多了,目前我也只是用到了一部分,想尝试更多的还是去看<a href="http://webpack.github.io/docs/" target="_blank" rel="external">官方文档</a>吧.</p>
+<h3 id="项目结构"><a href="#项目结构" class="headerlink" title="项目结构"></a>项目结构</h3><figure class="highlight mipsasm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">├── <span class="keyword">build</span><br><span class="line"></span>│   ├── css</span><br><span class="line">│   ├── imgs</span><br><span class="line">│   └── <span class="keyword">js</span><br><span class="line"></span>├── <span class="built_in">config</span></span><br><span class="line">├── node_modules</span><br><span class="line">└── src</span><br><span class="line">    ├── node_modules</span><br><span class="line">    ├── content</span><br><span class="line">    │   ├── component</span><br><span class="line">    │   └── mixins</span><br><span class="line">    ├── options</span><br><span class="line">    │   ├── component</span><br><span class="line">    │   ├── css</span><br><span class="line">    │   └── mixins</span><br><span class="line">    └── popup</span><br><span class="line">        ├── component</span><br><span class="line">        ├── css</span><br><span class="line">        └── mixins</span><br></pre></td></tr></table></figure>
+        </div>
+        <footer class="article-footer">
+            
+
+
+
+    <a data-url="http://alifgt.github.io/2016/07/07/react试用体验/" data-id="ciqc10lrd0005xentlosh6st2" class="article-share-link"><i class="fa fa-share"></i>分享到</a>
+<script>
+    (function ($) {
+        $('body').on('click', function() {
+            $('.article-share-box.on').removeClass('on');
+        }).on('click', '.article-share-link', function(e) {
+            e.stopPropagation();
+
+            var $this = $(this),
+                url = $this.attr('data-url'),
+                encodedUrl = encodeURIComponent(url),
+                id = 'article-share-box-' + $this.attr('data-id'),
+                offset = $this.offset(),
+                box;
+
+            if ($('#' + id).length) {
+                box = $('#' + id);
+
+                if (box.hasClass('on')){
+                    box.removeClass('on');
+                    return;
+                }
+            } else {
+                var html = [
+                    '<div id="' + id + '" class="article-share-box">',
+                        '<input class="article-share-input" value="' + url + '">',
+                        '<div class="article-share-links">',
+                            '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+                            '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+                            '<a href="http://pinterest.com/pin/create/button/?url=' + encodedUrl + '" class="article-share-pinterest" target="_blank" title="Pinterest"></a>',
+                            '<a href="https://plus.google.com/share?url=' + encodedUrl + '" class="article-share-google" target="_blank" title="Google+"></a>',
+                        '</div>',
+                    '</div>'
+                ].join('');
+
+              box = $(html);
+
+              $('body').append(box);
+            }
+
+            $('.article-share-box.on').hide();
+
+            box.css({
+                top: offset.top + 25,
+                left: offset.left
+            }).addClass('on');
+
+        }).on('click', '.article-share-box', function (e) {
+            e.stopPropagation();
+        }).on('click', '.article-share-box-input', function () {
+            $(this).select();
+        }).on('click', '.article-share-box-link', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+
+            window.open(this.href, 'article-share-box-window-' + Date.now(), 'width=500,height=450');
+        });
+    })(jQuery);
+</script>
+
+        </footer>
+    </div>
+</article>
+
+    <section id="comments">
+    
+        
+    <div class="ds-thread" data-thread-key="2016/07/07/react试用体验/" data-title="React试点开发总结" data-url="http://alifgt.github.io/2016/07/07/react试用体验/"></div>
+    <style>
+        #ds-thread #ds-reset .ds-textarea-wrapper {
+            background: none;
+        }
+        #ds-reset .ds-avatar img {
+            box-shadow: none;
+        }
+        #ds-reset .ds-gradient-bg {
+            background: #f7f7f7;
+        }
+        #ds-thread #ds-reset li.ds-tab a {
+            border-radius: 3px;
+        }
+        #ds-thread #ds-reset .ds-post-button {
+            color: white;
+            border: none;
+            box-shadow: none;
+            background: #d32;
+            text-shadow: none;
+            font-weight: normal;
+            font-family: 'Microsoft Yahei';
+        }
+        #ds-thread #ds-reset .ds-post-button:hover {
+            color: white;
+            background: #DE594C;
+        }
+        #ds-thread #ds-reset .ds-post-button:active {
+            background: #d32;
+        }
+        #ds-smilies-tooltip ul.ds-smilies-tabs li a.ds-current {
+            color: white;
+            background: #d32;
+            box-shadow: none;
+            text-shadow: none;
+            font-weight: normal;
+        }
+    </style>
+
+    
+    </section>
+
+                        </div>
+                    </section>
+                    <aside id="sidebar">
+    <a class="sidebar-toggle" title="Expand Sidebar"><i class="toggle icon"></i></a>
+    <div class="sidebar-top">
+        <p>关注我们 :</p>
+        <ul class="social-links">
+            
+                
+                <li>
+                    <a class="social-tooltip" title="github" href="https://github.com/alifgt/" target="_blank">
+                        <i class="icon fa fa-github"></i>
+                    </a>
+                </li>
+                
+            
+                
+                <li>
+                    <a class="social-tooltip" title="rss" href="/" target="_blank">
+                        <i class="icon fa fa-rss"></i>
+                    </a>
+                </li>
+                
+            
+        </ul>
+    </div>
+    
+        
+<nav id="article-nav">
+    
+    
+        <a href="/2016/07/07/轻松上手Mac系统配置/" id="article-nav-older" class="article-nav-link-wrap">
+        <strong class="article-nav-caption">上一篇</strong>
+        <p class="article-nav-title">轻松上手Mac系统配置</p>
+        <i class="icon fa fa-chevron-left" id="icon-chevron-left"></i>
+        </a>
+    
+</nav>
+
+    
+    <div class="widgets-container">
+        
+            
+                
+    <div class="widget-wrap">
+        <h3 class="widget-title">最新文章</h3>
+        <div class="widget">
+            <ul id="recent-post" class="">
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/2016/07/07/react试用体验/" class="thumbnail">
+    
+    
+        <span style="background-image:url(https://img.alicdn.com/tps/TB1.z0wKVXXXXauXFXXXXXXXXXX-1000-563.png)" alt="React试点开发总结" class="thumbnail-image"></span>
+    
+    
+</a>
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/web开发/">web开发</a></p>
+                            <p class="item-title"><a href="/2016/07/07/react试用体验/" class="title">React试点开发总结</a></p>
+                            <p class="item-date"><time datetime="2016-07-07T07:58:33.000Z" itemprop="datePublished">2016-07-07</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/2016/07/07/轻松上手Mac系统配置/" class="thumbnail">
+    
+    
+        <span style="background-image:url(https://img.alicdn.com/tps/TB1wQppKVXXXXc5XFXXXXXXXXXX-800-500.jpg)" alt="轻松上手Mac系统配置" class="thumbnail-image"></span>
+    
+    
+</a>
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/资源工具/">资源工具</a></p>
+                            <p class="item-title"><a href="/2016/07/07/轻松上手Mac系统配置/" class="title">轻松上手Mac系统配置</a></p>
+                            <p class="item-date"><time datetime="2016-07-07T05:58:56.000Z" itemprop="datePublished">2016-07-07</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/2016/06/30/web渲染性能/" class="thumbnail">
+    
+    
+        <span style="background-image:url(https://gw.alicdn.com/tps/TB1.3O3KpXXXXcKXXXXXXXXXXXX-1390-504.png)" alt="web渲染性能" class="thumbnail-image"></span>
+    
+    
+</a>
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/移动开发/">移动开发</a></p>
+                            <p class="item-title"><a href="/2016/06/30/web渲染性能/" class="title">web渲染性能</a></p>
+                            <p class="item-date"><time datetime="2016-06-30T09:05:22.000Z" itemprop="datePublished">2016-06-30</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/2016/06/30/js-generator/" class="thumbnail">
+    
+    
+        <span style="background-image:url(https://img.alicdn.com/tps/TB15xjYKFXXXXa0XXXXXXXXXXXX-700-400.png)" alt="使用生成器展平异步回调结构，JS篇" class="thumbnail-image"></span>
+    
+    
+</a>
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/web开发/">web开发</a></p>
+                            <p class="item-title"><a href="/2016/06/30/js-generator/" class="title">使用生成器展平异步回调结构，JS篇</a></p>
+                            <p class="item-date"><time datetime="2016-06-30T03:43:44.000Z" itemprop="datePublished">2016-06-30</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/2016/06/30/js-context/" class="thumbnail">
+    
+    
+        <span style="background-image:url(https://img.alicdn.com/tps/TB1i_vJKFXXXXcRXFXXXXXXXXXX-640-300.jpg)" alt="Javascript中的上下文，我认识的三个阶段" class="thumbnail-image"></span>
+    
+    
+</a>
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/web开发/">web开发</a></p>
+                            <p class="item-title"><a href="/2016/06/30/js-context/" class="title">Javascript中的上下文，我认识的三个阶段</a></p>
+                            <p class="item-date"><time datetime="2016-06-30T03:43:43.000Z" itemprop="datePublished">2016-06-30</time></p>
+                        </div>
+                    </li>
+                
+            </ul>
+        </div>
+    </div>
+
+            
+                
+    <div class="widget-wrap widget-list">
+        <h3 class="widget-title">分类</h3>
+        <div class="widget">
+            <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/web开发/">web开发</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/移动开发/">移动开发</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/资源工具/">资源工具</a><span class="category-list-count">1</span></li></ul>
+        </div>
+    </div>
+
+
+            
+                
+    <div class="widget-wrap widget-list">
+        <h3 class="widget-title">归档</h3>
+        <div class="widget">
+            <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/07/">七月 2016</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/06/">六月 2016</a><span class="archive-list-count">3</span></li></ul>
+        </div>
+    </div>
+
+
+            
+                
+    <div class="widget-wrap widget-list">
+        <h3 class="widget-title">标签</h3>
+        <div class="widget">
+            <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/js/">js</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/react/">react</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/性能/">性能</a><span class="tag-list-count">1</span></li></ul>
+        </div>
+    </div>
+
+
+            
+                
+    <div class="widget-wrap widget-float">
+        <h3 class="widget-title">标签云</h3>
+        <div class="widget tagcloud">
+            <a href="/tags/js/" style="font-size: 20px;">js</a> <a href="/tags/react/" style="font-size: 10px;">react</a> <a href="/tags/性能/" style="font-size: 10px;">性能</a>
+        </div>
+    </div>
+
+
+            
+                
+    <div class="widget-wrap widget-list">
+        <h3 class="widget-title">链接</h3>
+        <div class="widget">
+            <ul>
+                
+                    <li>
+                        <a href="http://taobaofed.org">淘宝FED</a>
+                    </li>
+                
+            </ul>
+        </div>
+    </div>
+
+
+            
+        
+    </div>
+</aside>
+                </div>
+            </div>
+        </div>
+        <footer id="footer">
+    <div class="container">
+        <div class="container-inner">
+            <a id="back-to-top" href="javascript:;"><i class="icon fa fa-angle-up"></i></a>
+            <div class="credit">
+                <h1 class="logo-wrap">
+                    <a href="/" class="logo"></a>
+                </h1>
+                <p>&copy; 2016 FGT TEAM</p>
+                <p>Powered by <a href="//hexo.io/" target="_blank">Hexo</a>. Theme by <a href="//github.com/ppoffice" target="_blank">PPOffice</a></p>
+            </div>
+        </div>
+    </div>
+</footer>
+        
+    
+    <script type="text/javascript">
+    var duoshuoQuery = {short_name:'alifgt'};
+    (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0]
+    || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+    </script>
+
+
+
+    
+        <script src="/vendor/fancybox/jquery.fancybox.pack.js"></script>
+    
+
+    
+        <script src="/vendor/scrollLoading/jquery.scrollLoading.js"></script>
+        <script src="/vendor/scrollLoading/main.js"></script>
+    
+
+
+<!-- Custom Scripts -->
+<script src="/js/main.js"></script>
+
+    </div>
+</body>
+</html>
