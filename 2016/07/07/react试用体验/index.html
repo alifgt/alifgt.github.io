@@ -17,7 +17,7 @@
 <meta property="og:description" content="前段时间需要开发一个流程化接口管理的chrome插件,用来对线上和线下mock数据进行管理,劫持和替换,同时需要对过滤的请求状态进行实时的刷新,之前有了解到react在视图层的渲染上有着不错的效率表现,于是趁着这个项目,利用react+socket.io进行了试点开发,上周刚好完成了第一个版本,于是决定结合这个项目跟大家分享一下利用react开发的实际体验以及踩过的坑.
 首先,什么是react?">
 <meta property="og:image" content="https://img.alicdn.com/tps/TB1.z0wKVXXXXauXFXXXXXXXXXX-1000-563.png">
-<meta property="og:updated_time" content="2016-07-07T08:03:09.000Z">
+<meta property="og:updated_time" content="2016-07-11T02:01:54.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="React试点开发总结">
 <meta name="twitter:description" content="前段时间需要开发一个流程化接口管理的chrome插件,用来对线上和线下mock数据进行管理,劫持和替换,同时需要对过滤的请求状态进行实时的刷新,之前有了解到react在视图层的渲染上有着不错的效率表现,于是趁着这个项目,利用react+socket.io进行了试点开发,上周刚好完成了第一个版本,于是决定结合这个项目跟大家分享一下利用react开发的实际体验以及踩过的坑.
@@ -257,7 +257,8 @@ var _hmt = _hmt || [];
 </li>
 </ul>
 <h3 id="打包工具"><a href="#打包工具" class="headerlink" title="打包工具"></a>打包工具</h3><p>本次开发也尝试了一下新的打包工具Webpack，说到Webpack不得不先提一下Browserify,因为这两个有非常多的相似之处，而Browserify也早于Webpack出来.那么Browserify当时是为了要解决什么问题呢?在前端模块化的前进道路上有两套规范AMD和CMD,而像node.js则是用了CMD的写法,所以当时就有人想,如果前端也用CMD那么前后端代码不是就能复用了吗, Browserify由此诞生,它允许开发者使用node.js的写法写前端的代码,最后把当前JS模块及所依赖的模块打包成一个文件在浏览器端使用.</p>
-<p>而Webpack虽然与Browserify相似,但是功能上却要比Browserify强大的多,比如Browserify只能够用来打包JS文件,而Webpack则是允许如下图这么多格式的打包,并且在开发的过程中不需要安装额外的插件就能做到对文件的实时监测和打包,命令行工具也是放出了足够多的API,比如在本想目中我完成<code>webpack.config.js</code>的编写后运行下方的命令,就可以很方便地协助我进行开发调试:</p>
+<p><img src="http://img2.tbcdn.cn/L1/461/1/66478ee8ebb0f4659fa95f2db6ece6866fb6159b" alt=""></p>
+<p>而Webpack虽然与Browserify相似,但是功能上却要比Browserify强大的多,比如Browserify只能够用来打包JS文件,而Webpack则是允许如上图这么多格式的打包,并且在开发的过程中不需要安装额外的插件就能做到对文件的实时监测和打包,命令行工具也是放出了足够多的API,比如在本想目中我完成<code>webpack.config.js</code>的编写后运行下方的命令,就可以很方便地协助我进行开发调试:</p>
 <figure class="highlight brainfuck"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">webpack</span> <span class="literal">-</span><span class="literal">-</span><span class="comment">config</span> <span class="comment">config/webpack</span><span class="literal">-</span><span class="comment">dev</span><span class="string">.</span><span class="comment">config</span><span class="string">.</span><span class="comment">js</span> <span class="literal">-</span><span class="literal">-</span><span class="comment">progress</span> <span class="literal">-</span><span class="literal">-</span><span class="comment">profile</span> <span class="literal">-</span><span class="literal">-</span><span class="comment">colors</span> <span class="literal">-</span><span class="literal">-</span><span class="comment">watch</span> <span class="literal">-</span><span class="literal">-</span><span class="comment">display</span><span class="literal">-</span><span class="comment">error</span><span class="literal">-</span><span class="comment">details</span></span><br></pre></td></tr></table></figure>
 <p>同时Webpack对不同文件打包的支持也是需要不同对应的loader,如下方对于jsx我使用的是babel而对于css则是用了style-loader.</p>
 <figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">module</span>: &#123;</span><br><span class="line">    loaders: [&#123;</span><br><span class="line">      test: <span class="regexp">/\.jsx?$/</span>,</span><br><span class="line">      loader: <span class="string">'babel'</span>,</span><br><span class="line">      exclude: [path.join(root, <span class="string">'node_modules'</span>), path.join(context, <span class="string">'node_modules'</span>)]</span><br><span class="line">    &#125;,</span><br><span class="line">    &#123;</span><br><span class="line">      test: <span class="regexp">/\.jpe?g$|\.gif$|\.png$|\.svg$|\.woff$|\.ttf$/</span>,</span><br><span class="line">      loader: <span class="string">'file'</span></span><br><span class="line">    &#125;,</span><br><span class="line">    &#123;</span><br><span class="line">      test: <span class="regexp">/\.css$/</span>,</span><br><span class="line">      loader: ExtractTextPlugin.extract(<span class="string">'style-loader'</span>, <span class="string">'css-loader'</span>)</span><br><span class="line">    &#125;]</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure>
@@ -272,7 +273,7 @@ var _hmt = _hmt || [];
 
 
 
-    <a data-url="http://alifgt.github.io/2016/07/07/react试用体验/" data-id="ciqc10lrd0005xentlosh6st2" class="article-share-link"><i class="fa fa-share"></i>分享到</a>
+    <a data-url="http://alifgt.github.io/2016/07/07/react试用体验/" data-id="ciqhdvkim0005j4nt8wcpn59y" class="article-share-link"><i class="fa fa-share"></i>分享到</a>
 <script>
     (function ($) {
         $('body').on('click', function() {
