@@ -89,7 +89,7 @@ var _hmt = _hmt || [];
                     </h1>
                     
                         <h2 class="subtitle-wrap">
-                            <p class="subtitle">集团客户体验事业群前端团队</p>
+                            <p class="subtitle">阿里集团客户体验事业群前端团队</p>
                         </h2>
                     
                 </div>
@@ -260,7 +260,7 @@ var _hmt = _hmt || [];
 <figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> &#123; combineReducers &#125; <span class="keyword">from</span> <span class="string">'redux'</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> combineReducers(&#123;</span><br><span class="line">  reducerA,</span><br><span class="line">  reducerB</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line"><span class="comment">// or</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">let</span> reducer = (state = initialState, action) &#123;</span><br><span class="line">	a: processA(state.a, action),</span><br><span class="line">	b: processB(state.b, action)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <h2 id="Store"><a href="#Store" class="headerlink" title="Store"></a>Store</h2><h3 id="1-将-Store-绑定-React"><a href="#1-将-Store-绑定-React" class="headerlink" title="1. 将 Store 绑定 React"></a>1. 将 Store 绑定 React</h3><p>使用 react-redux 提供的 Provider 可以将 Store 注入到 react 中。</p>
 <p>Store 将合并后的 reducers 通过 createStore 创建，此外下面示例代码还使用中间件加入了一层 react-thunk 处理。</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> ReactDOM <span class="keyword">from</span> <span class="string">'react-dom'</span>;</span><br><span class="line"><span class="keyword">import</span> &#123; createStore, applyMiddleware &#125; <span class="keyword">from</span> <span class="string">'redux'</span>;</span><br><span class="line"><span class="keyword">import</span> &#123; Provider &#125; <span class="keyword">from</span> <span class="string">'react-redux'</span></span><br><span class="line"><span class="keyword">import</span> thunk <span class="keyword">from</span> <span class="string">'redux-thunk'</span>;</span><br><span class="line"><span class="keyword">import</span> reducers <span class="keyword">from</span> <span class="string">'./reducers'</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> store = createStore(</span><br><span class="line">  reducers,</span><br><span class="line">  applyMiddleware(thunk)</span><br><span class="line">);</span><br><span class="line"></span><br><span class="line">ReactDOM.render((</span><br><span class="line">  &lt;Provider store=&#123;store&#125;&gt;</span><br><span class="line">   // ...</span><br><span class="line">  &lt;/Provider&gt;</span><br><span class="line">), <span class="built_in">document</span>.querySelector(<span class="string">'#app'</span>));</span><br></pre></td></tr></table></figure>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> ReactDOM <span class="keyword">from</span> <span class="string">'react-dom'</span>;</span><br><span class="line"><span class="keyword">import</span> &#123; createStore, applyMiddleware &#125; <span class="keyword">from</span> <span class="string">'redux'</span>;</span><br><span class="line"><span class="keyword">import</span> &#123; Provider &#125; <span class="keyword">from</span> <span class="string">'react-redux'</span></span><br><span class="line"><span class="keyword">import</span> thunk <span class="keyword">from</span> <span class="string">'redux-thunk'</span>;</span><br><span class="line"><span class="keyword">import</span> reducers <span class="keyword">from</span> <span class="string">'./reducers'</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> store = createStore(</span><br><span class="line">  reducers,</span><br><span class="line">  applyMiddleware(thunk)</span><br><span class="line">);</span><br><span class="line"></span><br><span class="line">ReactDOM.render((</span><br><span class="line">  <span class="xml"><span class="tag">&lt;<span class="name">Provider</span> <span class="attr">store</span>=<span class="string">&#123;store&#125;</span>&gt;</span></span><br><span class="line">   // ...</span><br><span class="line">  <span class="tag">&lt;/<span class="name">Provider</span>&gt;</span></span></span><br><span class="line">), <span class="built_in">document</span>.querySelector(<span class="string">'#app'</span>));</span><br></pre></td></tr></table></figure>
 <h3 id="2-将-state-绑定到-Component"><a href="#2-将-state-绑定到-Component" class="headerlink" title="2. 将 state 绑定到 Component"></a>2. 将 state 绑定到 Component</h3><p>使用 react-redux 提供的 connect 方法 将组件和所需数据绑定。</p>
 <p><strong>需要注意的是</strong>，Store 创建时接收的是合并后的 reducers, 因此不同 reducer 上的处理数据绑定在了不同 reducer 对象上，而不是全部挂载在 Store 上。</p>
 <p>mapStateToProps 将组件内部所需数据通过 props 传入组件内部。更多绑定机制，具体可参考<a href="http://cn.redux.js.org/docs/react-redux/api.html" target="_blank" rel="external">connect</a></p>
@@ -327,12 +327,12 @@ var _hmt = _hmt || [];
 </ul>
 <p>组件内部所需的渲染数据都已经绑定在了 props 上，直接获取即可。</p>
 <p><strong>需要注意的是</strong>，在事件监听中触发 Action，需要用一个匿名函数封装，否则 React 在渲染时就会执行事件绑定事件，而不是当事件发生再执行。</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">render() &#123;</span><br><span class="line">  <span class="keyword">let</span> &#123; dispatch, propA, propB &#125; = <span class="keyword">this</span>.props;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> (</span><br><span class="line">      &lt;section&gt;</span><br><span class="line">        // Attention !!!</span><br><span class="line">        &lt;input type="text" onClick=&#123;(ev) =&gt; dispatch(actionB(ev))&#125; /&gt;</span><br><span class="line">        &lt;p className=&#123;propA&#125;&gt;&#123;propB&#125;&lt;/p&gt;</span><br><span class="line">      &lt;/section&gt;</span><br><span class="line">    )</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">render() &#123;</span><br><span class="line">  <span class="keyword">let</span> &#123; dispatch, propA, propB &#125; = <span class="keyword">this</span>.props;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> (</span><br><span class="line">      <span class="xml"><span class="tag">&lt;<span class="name">section</span>&gt;</span></span><br><span class="line">        // Attention !!!</span><br><span class="line">        <span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"text"</span> <span class="attr">onClick</span>=<span class="string">&#123;(ev)</span> =&gt;</span> dispatch(actionB(ev))&#125; /&gt;</span><br><span class="line">        <span class="tag">&lt;<span class="name">p</span> <span class="attr">className</span>=<span class="string">&#123;propA&#125;</span>&gt;</span>&#123;propB&#125;<span class="tag">&lt;/<span class="name">p</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;/<span class="name">section</span>&gt;</span></span><br><span class="line">    )</span><br><span class="line">&#125;</span></span><br></pre></td></tr></table></figure>
 <ul>
 <li><strong>容器组件传递方法</strong></li>
 </ul>
 <p>容器型组件需要连接 Redux，使用 dispatch 触发 actionCreator。<br>展示型组件需要用到的方法调用在容器型组件内定义好，通过 props 传入到展示型组件中。</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// get actionCreator</span></span><br><span class="line"><span class="keyword">import</span> &#123; actionA &#125; <span class="keyword">from</span> <span class="string">'./actions/actionA'</span>;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Parent</span> <span class="keyword">extends</span> <span class="title">Component</span> </span>&#123;</span><br><span class="line">  handleCallback(data) &#123;</span><br><span class="line">    <span class="comment">// use dispatch</span></span><br><span class="line">    <span class="keyword">let</span> &#123; dispatch &#125; = <span class="keyword">this</span>.props;</span><br><span class="line">    dispatch(actionA(data));</span><br><span class="line">  &#125;</span><br><span class="line">  render() &#123;</span><br><span class="line">    <span class="keyword">return</span> (</span><br><span class="line">      &lt;Child onSomethingChange=&#123;this.handleCallback&#125; /&gt;</span><br><span class="line">    )</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line">// connet Redux</span><br><span class="line">export default connect()(Parent);</span><br></pre></td></tr></table></figure>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// get actionCreator</span></span><br><span class="line"><span class="keyword">import</span> &#123; actionA &#125; <span class="keyword">from</span> <span class="string">'./actions/actionA'</span>;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Parent</span> <span class="keyword">extends</span> <span class="title">Component</span> </span>&#123;</span><br><span class="line">  handleCallback(data) &#123;</span><br><span class="line">    <span class="comment">// use dispatch</span></span><br><span class="line">    <span class="keyword">let</span> &#123; dispatch &#125; = <span class="keyword">this</span>.props;</span><br><span class="line">    dispatch(actionA(data));</span><br><span class="line">  &#125;</span><br><span class="line">  render() &#123;</span><br><span class="line">    <span class="keyword">return</span> (</span><br><span class="line">      <span class="xml"><span class="tag">&lt;<span class="name">Child</span> <span class="attr">onSomethingChange</span>=<span class="string">&#123;this.handleCallback&#125;</span> /&gt;</span></span><br><span class="line">    )</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line">// connet Redux</span><br><span class="line">export default connect()(Parent);</span></span><br></pre></td></tr></table></figure>
 <ul>
 <li><strong>展示组件接收props</strong></li>
 </ul>
@@ -353,7 +353,7 @@ var _hmt = _hmt || [];
 
 
 
-    <a data-url="http://alifgt.github.io/2016/07/28/react+redux入坑指南/" data-id="cir6abhcq000hhpntj9yaczr4" class="article-share-link"><i class="fa fa-share"></i>分享到</a>
+    <a data-url="http://alifgt.github.io/2016/07/28/react+redux入坑指南/" data-id="cirh5fxup0008txntwpg7rf6f" class="article-share-link"><i class="fa fa-share"></i>分享到</a>
 <script>
     (function ($) {
         $('body').on('click', function() {
@@ -492,6 +492,16 @@ var _hmt = _hmt || [];
         
 <nav id="article-nav">
     
+        <a href="/2016/08/05/Gentle explanation of 'this' keyword in JavaScript/" id="article-nav-newer" class="article-nav-link-wrap">
+        <strong class="article-nav-caption">下一篇</strong>
+        <p class="article-nav-title">
+        
+            Gentle explanation of &#39;this&#39; keyword in JavaScript
+        
+        </p>
+        <i class="icon fa fa-chevron-right" id="icon-chevron-right"></i>
+    </a>
+    
     
         <a href="/2016/07/21/ReactNative初体验 /" id="article-nav-older" class="article-nav-link-wrap">
         <strong class="article-nav-caption">上一篇</strong>
@@ -510,6 +520,25 @@ var _hmt = _hmt || [];
         <h3 class="widget-title">最新文章</h3>
         <div class="widget">
             <ul id="recent-post" class="">
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/2016/08/05/Gentle explanation of 'this' keyword in JavaScript/" class="thumbnail">
+    
+    
+        <span class="thumbnail-image thumbnail-none"></span>
+    
+    
+</a>
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/IRIS翻译社/">IRIS翻译社</a></p>
+                            <p class="item-title"><a href="/2016/08/05/Gentle explanation of 'this' keyword in JavaScript/" class="title">Gentle explanation of &#39;this&#39; keyword in JavaScript</a></p>
+                            <p class="item-date"><time datetime="2016-08-05T02:43:44.000Z" itemprop="datePublished">2016-08-05</time></p>
+                        </div>
+                    </li>
                 
                     <li>
                         
@@ -587,25 +616,6 @@ var _hmt = _hmt || [];
                         </div>
                     </li>
                 
-                    <li>
-                        
-                        <div class="item-thumbnail">
-                            <a href="/2016/07/07/轻松上手Mac系统配置/" class="thumbnail">
-    
-    
-        <span style="background-image:url(https://img.alicdn.com/tps/TB1wQppKVXXXXc5XFXXXXXXXXXX-800-500.jpg)" alt="轻松上手Mac系统配置" class="thumbnail-image"></span>
-    
-    
-</a>
-                        </div>
-                        
-                        <div class="item-inner">
-                            <p class="item-category"><a class="article-category-link" href="/categories/资源工具/">资源工具</a></p>
-                            <p class="item-title"><a href="/2016/07/07/轻松上手Mac系统配置/" class="title">轻松上手Mac系统配置</a></p>
-                            <p class="item-date"><time datetime="2016-07-07T05:58:56.000Z" itemprop="datePublished">2016-07-07</time></p>
-                        </div>
-                    </li>
-                
             </ul>
         </div>
     </div>
@@ -615,7 +625,7 @@ var _hmt = _hmt || [];
     <div class="widget-wrap widget-list">
         <h3 class="widget-title">分类</h3>
         <div class="widget">
-            <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/IRIS翻译社/">IRIS翻译社</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/web开发/">web开发</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/移动开发/">移动开发</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/资源工具/">资源工具</a><span class="category-list-count">1</span></li></ul>
+            <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/IRIS翻译社/">IRIS翻译社</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/web开发/">web开发</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/移动开发/">移动开发</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/资源工具/">资源工具</a><span class="category-list-count">1</span></li></ul>
         </div>
     </div>
 
@@ -625,7 +635,7 @@ var _hmt = _hmt || [];
     <div class="widget-wrap widget-list">
         <h3 class="widget-title">归档</h3>
         <div class="widget">
-            <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/07/">七月 2016</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/06/">六月 2016</a><span class="archive-list-count">3</span></li></ul>
+            <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/08/">八月 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/07/">七月 2016</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/06/">六月 2016</a><span class="archive-list-count">4</span></li></ul>
         </div>
     </div>
 
@@ -635,7 +645,7 @@ var _hmt = _hmt || [];
     <div class="widget-wrap widget-list">
         <h3 class="widget-title">标签</h3>
         <div class="widget">
-            <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/js/">js</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/react/">react</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/性能/">性能</a><span class="tag-list-count">1</span></li></ul>
+            <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/css/">css</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/js/">js</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/react/">react</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/性能/">性能</a><span class="tag-list-count">1</span></li></ul>
         </div>
     </div>
 
@@ -645,7 +655,7 @@ var _hmt = _hmt || [];
     <div class="widget-wrap widget-float">
         <h3 class="widget-title">标签云</h3>
         <div class="widget tagcloud">
-            <a href="/tags/js/" style="font-size: 15px;">js</a> <a href="/tags/react/" style="font-size: 20px;">react</a> <a href="/tags/性能/" style="font-size: 10px;">性能</a>
+            <a href="/tags/css/" style="font-size: 10px;">css</a> <a href="/tags/js/" style="font-size: 15px;">js</a> <a href="/tags/react/" style="font-size: 20px;">react</a> <a href="/tags/性能/" style="font-size: 10px;">性能</a>
         </div>
     </div>
 

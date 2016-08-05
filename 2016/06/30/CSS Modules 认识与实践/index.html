@@ -1,0 +1,655 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    
+    <title>CSS Modules 认识与实践 | FGT</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+        <meta name="keywords" content="css" />
+    
+    <meta name="description" content="第一次看到这个是在@勾股的微博上，当时想的是不是w3c又有什么草案了 ，css也可以有“作用域”的概念了。当仔细看了之后，原来并非如此。
+简介
+A CSS Module is a CSS file in which all class names and animation names are scoped locally by default
+
+简而言之，它并不是一个官方的草案或者标准，而是在代">
+<meta property="og:type" content="article">
+<meta property="og:title" content="CSS Modules 认识与实践">
+<meta property="og:url" content="http://alifgt.github.io/2016/06/30/CSS Modules 认识与实践/index.html">
+<meta property="og:site_name" content="FGT">
+<meta property="og:description" content="第一次看到这个是在@勾股的微博上，当时想的是不是w3c又有什么草案了 ，css也可以有“作用域”的概念了。当仔细看了之后，原来并非如此。
+简介
+A CSS Module is a CSS file in which all class names and animation names are scoped locally by default
+
+简而言之，它并不是一个官方的草案或者标准，而是在代">
+<meta property="og:image" content="http://img4.tbcdn.cn/L1/461/1/5b626dc6c5afe8f0edaee5a27e7da6732e2b9bbd">
+<meta property="og:updated_time" content="2016-08-05T04:38:53.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="CSS Modules 认识与实践">
+<meta name="twitter:description" content="第一次看到这个是在@勾股的微博上，当时想的是不是w3c又有什么草案了 ，css也可以有“作用域”的概念了。当仔细看了之后，原来并非如此。
+简介
+A CSS Module is a CSS file in which all class names and animation names are scoped locally by default
+
+简而言之，它并不是一个官方的草案或者标准，而是在代">
+<meta name="twitter:image" content="http://img4.tbcdn.cn/L1/461/1/5b626dc6c5afe8f0edaee5a27e7da6732e2b9bbd">
+    
+
+    
+
+    
+
+    <link rel="stylesheet" href="/vendor/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="/vendor/titillium-web/styles.css">
+    <link rel="stylesheet" href="/vendor/source-code-pro/styles.css">
+
+    <link rel="stylesheet" href="/css/style.css">
+
+    <script src="/vendor/jquery/2.0.3/jquery.min.js"></script>
+    
+    
+        <link rel="stylesheet" href="/vendor/fancybox/jquery.fancybox.css">
+    
+    
+        <link rel="stylesheet" href="/vendor/scrollLoading/style.css">
+    
+    
+    
+        <script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "//hm.baidu.com/hm.js?af53e54422ba934b74dc6635952d04bd# enter Baidu Analytics hash key";
+  var s = document.getElementsByTagName("script")[0];
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+    
+
+</head>
+
+<body>
+    <div id="wrap">
+        <header id="header">
+    <div id="header-outer" class="outer">
+        <div class="container">
+            <div class="container-inner">
+                <div id="header-title">
+                    <h1 class="logo-wrap">
+                        <a href="/" class="logo"></a>
+                    </h1>
+                    
+                        <h2 class="subtitle-wrap">
+                            <p class="subtitle">阿里集团客户体验事业群前端团队</p>
+                        </h2>
+                    
+                </div>
+                <div id="header-inner" class="nav-container">
+                    <a id="main-nav-toggle" class="nav-icon fa fa-bars"></a>
+                    <div class="nav-container-inner">
+                        <ul id="main-nav">
+                            
+                                <li class="main-nav-list-item" >
+                                    <a class="main-nav-list-link" href="/">Home</a>
+                                </li>
+                            
+                                <li class="main-nav-list-item" >
+                                    <a class="main-nav-list-link" href="/categories/web开发/">web开发</a>
+                                </li>
+                            
+                                <li class="main-nav-list-item" >
+                                    <a class="main-nav-list-link" href="/categories/移动开发/">移动开发</a>
+                                </li>
+                            
+                                <li class="main-nav-list-item" >
+                                    <a class="main-nav-list-link" href="/categories/资源工具/">资源工具</a>
+                                </li>
+                            
+                                <li class="main-nav-list-item" >
+                                    <a class="main-nav-list-link" href="/categories/12D实验室/">12D实验室</a>
+                                </li>
+                            
+                                <li class="main-nav-list-item" >
+                                    <a class="main-nav-list-link" href="/categories/IRIS翻译社/">IRIS翻译社</a>
+                                </li>
+                            
+                                <li class="main-nav-list-item" >
+                                    <a class="main-nav-list-link" href="/categories/团队生活/">团队生活</a>
+                                </li>
+                            
+                                <li class="main-nav-list-item" >
+                                    <a class="main-nav-list-link" href="/joinus.html">加入我们</a>
+                                </li>
+                            
+                        </ul>
+                        <nav id="sub-nav">
+                            <div id="search-form-wrap">
+
+    <form class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="搜索" />
+        <button type="submit" class="search-form-submit"></button>
+    </form>
+    <div class="ins-search">
+    <div class="ins-search-mask"></div>
+    <div class="ins-search-container">
+        <div class="ins-input-wrapper">
+            <input type="text" class="ins-search-input" placeholder="想要查找什么..." />
+            <span class="ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: '文章',
+            PAGES: '页面',
+            CATEGORIES: '分类',
+            TAGS: '标签',
+            UNTITLED: '(未命名)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+<script src="/js/insight.js"></script>
+
+</div>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+        <div class="container">
+            <div class="main-body container-inner">
+                <div class="main-body-inner">
+                    <section id="main">
+                        <div class="main-body-header">
+    <h1 class="header">
+    
+    <a class="page-title-link" href="/categories/web开发/">web开发</a>
+    </h1>
+</div>
+                        <div class="main-body-content">
+                            <article id="post-CSS Modules 认识与实践" class="article article-single article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
+        
+            <header class="article-header">
+                
+    
+        <h1 class="article-title" itemprop="name">
+        CSS Modules 认识与实践
+        </h1>
+    
+
+            </header>
+        
+        <div class="article-subtitle">
+            <a href="/2016/06/30/CSS Modules 认识与实践/" class="article-date">
+    <time datetime="2016-06-30T03:43:43.000Z" itemprop="datePublished">2016-06-30</time>
+</a>
+            
+    <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/css/">css</a></li></ul>
+
+            &nbsp;&nbsp;乐弋
+
+        </div>
+        <div class="article-entry" itemprop="articleBody">
+            <p>第一次看到这个是在@勾股的微博上，当时想的是不是w3c又有什么草案了 ，css也可以有“作用域”的概念了。当仔细看了之后，原来并非如此。</p>
+<h4 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h4><blockquote>
+<p>A CSS Module is a CSS file in which all class names and animation names are scoped locally by default</p>
+</blockquote>
+<p>简而言之，它并不是一个官方的草案或者标准，而是在代码打包阶段的一个css前后处理器：可以将样式文件中的类名和选择器变得模块化（也就是只对该模块有效）。</p>
+<p>它的核心概念就是：locan scope by default /局部作用域，我此时此刻联想到了”菊”部。。</p>
+<p>更直接的说，其实它就是一个打包插件，在打包css代码的时候会帮你做些事情：</p>
+<ul>
+<li>让使用者肆无忌惮的去写自己的css代码，不用担心会影响到其他样式。这个在多人合作的时候会大大减少你的烦恼和时间。</li>
+<li>让css代码无忧无虑的跨模块使用</li>
+<li>让css代码高度可复用</li>
+</ul>
+<h4 id="命名"><a href="#命名" class="headerlink" title="命名"></a>命名</h4><p>通过Webpack或者Browserify，每个模块所用过的css 都会被单独编译打包，所以你可以在样式表中用通用的名字来命名。</p>
+<p>举个例子，比如我们要制作一个按钮，它有两个状态：enabled和disabled。通常会这样命名和使用：</p>
+<blockquote>
+<p>Before CSS Modules：button.css</p>
+</blockquote>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-class">.button</span> &#123; <span class="comment">/* all styles for Normal */</span> &#125;</span><br><span class="line"><span class="selector-class">.button--disabled</span> &#123; <span class="comment">/* overrides for Disabled */</span> &#125;</span><br><span class="line"><span class="selector-class">.button--normal</span> &#123; <span class="comment">/* overrides for normal */</span> &#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">button</span> <span class="attr">class</span>=<span class="string">"button button--enabled"</span>&gt;</span>enabled<span class="tag">&lt;/<span class="name">button</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>这是传统的bem风格，但bem有个缺点：嵌套的让人懵逼了。。。</p>
+<blockquote>
+<p>With CSS Modules :  button.css</p>
+</blockquote>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-class">.disabled</span> &#123; <span class="comment">/* all styles for Disabled */</span> &#125;</span><br><span class="line"><span class="selector-class">.normal</span> &#123; <span class="comment">/* all styles for normal */</span> &#125;</span><br></pre></td></tr></table></figure>
+<p>只需在样式中写最通用的命名。在所写的js模块中，引用css样式：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> styles <span class="keyword">from</span> <span class="string">'./button.css'</span>;</span><br><span class="line"></span><br><span class="line">buttonElem.outerHTML = <span class="string">`&lt;button class=<span class="subst">$&#123;styles.normal&#125;</span>&gt;按钮&lt;/button&gt;`</span></span><br></pre></td></tr></table></figure>
+<p>虽然它是通用命名，但经过编译后它真正的class一定是独一无二的。这就是css modules为你所做的。</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">button</span> <span class="attr">class</span>=<span class="string">"components_submit_button__normal__abc5436"</span>&gt;</span></span><br><span class="line">  Processing...</span><br><span class="line"><span class="tag">&lt;/<span class="name">button</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p> 这里有个需要注意的地方：就是不要写base＋overrides风格，用过空格隔开，比如这样：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">`class=<span class="subst">$&#123;[styles.normal, styles['in-progress']].join(" ")&#125;</span>`</span></span><br></pre></td></tr></table></figure>
+<p>css modules 推荐一个类应该有它所有的样式。</p>
+<h4 id="组合"><a href="#组合" class="headerlink" title="组合"></a>组合</h4><p>如上面所说，css modules  不建议bem的风格，但我们如何复用或者共享一些样式呢？那就是接下来的：</p>
+<blockquote>
+<p>CSS Modules’ most potent weapon, <strong>composition</strong>:</p>
+</blockquote>
+<p>bem写法相应的变成这样：</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-class">.common</span> &#123;</span><br><span class="line">  <span class="comment">/* all the common styles you want 基类*/</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-class">.normal</span> &#123;</span><br><span class="line">  <span class="attribute">composes</span>: common;</span><br><span class="line">  <span class="comment">/* anything that only applies to Normal */</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-class">.disabled</span> &#123;</span><br><span class="line">  <span class="attribute">composes</span>: common;</span><br><span class="line">  <span class="comment">/* anything that only applies to Disabled */</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>看看 最后的输出结果：</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">button</span> <span class="attr">class</span>=<span class="string">"components_submit_button__common__abc5436 </span><br><span class="line">               components_submit_button__normal__def6547"</span>&gt;</span></span><br><span class="line">  按钮</span><br><span class="line"><span class="tag">&lt;/<span class="name">button</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>这样 你不需要 更改或者增加你的类名就可以复用和组合 各种基本样式，是不是很方便？</p>
+<h4 id="共享"><a href="#共享" class="headerlink" title="共享"></a>共享</h4><p>使用compose来引用其他样式文件，不同于less的@import.</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/* colors.css */</span></span><br><span class="line"><span class="selector-class">.primary</span> &#123;</span><br><span class="line">  <span class="attribute">color</span>: <span class="number">#720</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-class">.secondary</span> &#123;</span><br><span class="line">  <span class="attribute">color</span>: <span class="number">#777</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>此时button.css需要引用color.css中的primary颜色：</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-class">.common</span> &#123; <span class="comment">/* font-sizes, padding, border-radius */</span> &#125;</span><br><span class="line"><span class="selector-class">.normal</span> &#123;</span><br><span class="line">  <span class="attribute">composes</span>: common;</span><br><span class="line">  <span class="attribute">composes</span>: primary from <span class="string">"./colors.css"</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这时候可以看到css modules 真的是把样式表每个样式基类独立出来了。</p>
+<h4 id="独立样式"><a href="#独立样式" class="headerlink" title="独立样式"></a>独立样式</h4><p>有了compose 我们可以写很多基类，然后引用这些基类组成一个模块所需的样式</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-class">.element</span> &#123;</span><br><span class="line">  <span class="attribute">composes</span>: large from <span class="string">"./typography.css"</span>;</span><br><span class="line">  <span class="attribute">composes</span>: dark-text from <span class="string">"./colors.css"</span>;</span><br><span class="line">  <span class="attribute">composes</span>: padding-all-medium from <span class="string">"./layout.css"</span>;</span><br><span class="line">  <span class="attribute">composes</span>: subtle-shadow from <span class="string">"./effect.css"</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>感觉就像写 js最小模块一样。 但你不需要关心逻辑，只需自己组合就好了。</p>
+<h4 id="React实践"><a href="#React实践" class="headerlink" title="React实践"></a>React实践</h4><p>webpack是目前前端构建打包工具的首选了，react的jsx 语法中的className配合css modules ,这样组合实在是太帅气了。</p>
+<p>相信大家的webpack插件都有下面这个，这个也是实现css modules的插件.</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-tag">extract-text-webpack-plugin</span><span class="selector-pseudo">:"</span>~0<span class="selector-class">.9</span><span class="selector-class">.1</span>"</span><br></pre></td></tr></table></figure>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> webpack = <span class="built_in">require</span>(<span class="string">'webpack'</span>);</span><br><span class="line"><span class="keyword">var</span> path = <span class="built_in">require</span>(<span class="string">'path'</span>);</span><br><span class="line"><span class="keyword">var</span> ExtractTextPlugin = <span class="built_in">require</span>(<span class="string">"extract-text-webpack-plugin"</span>);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="built_in">module</span>.exports = &#123;</span><br><span class="line"></span><br><span class="line">  <span class="built_in">module</span>: &#123;</span><br><span class="line">    loaders: [</span><br><span class="line">      &#123;test: <span class="regexp">/\.js?$/</span>, loaders: [<span class="string">'react-hot'</span>, <span class="string">'babel'</span>], exclude: <span class="regexp">/node_modules/</span>&#125;,</span><br><span class="line">      &#123;test: <span class="regexp">/\.js$/</span>, exclude: <span class="regexp">/node_modules/</span>, loader: <span class="string">'babel-loader'</span>&#125;,</span><br><span class="line">      &#123;</span><br><span class="line">        test: <span class="regexp">/\.css$/</span>,</span><br><span class="line">        loader: ExtractTextPlugin.extract(<span class="string">'css?modules&amp;importLoaders=1&amp;localIdentName=[name]__[local]___[hash:base64:5]'</span>),</span><br><span class="line">      &#125;</span><br><span class="line">    ]</span><br><span class="line">  &#125;,</span><br><span class="line">  entry: &#123;</span><br><span class="line">    <span class="string">'bundle'</span>:[</span><br><span class="line">      <span class="string">"webpack-dev-server/client?http://localhost:8080/"</span>,</span><br><span class="line">      <span class="string">"webpack/hot/dev-server"</span>,</span><br><span class="line">      path.resolve(__dirname, <span class="string">'./src/index.js'</span>)],</span><br><span class="line">  &#125;,</span><br><span class="line">  output: &#123;</span><br><span class="line">    path: path.resolve(__dirname, <span class="string">'dev'</span>),</span><br><span class="line">    filename: <span class="string">"[name].js"</span>,</span><br><span class="line">    libraryTarget: <span class="string">"amd"</span></span><br><span class="line">  &#125;,</span><br><span class="line">  resolve: &#123;</span><br><span class="line">    extensions:[<span class="string">''</span>,<span class="string">'.js'</span>,<span class="string">'.json'</span>]</span><br><span class="line">  &#125;,</span><br><span class="line">  plugins: [</span><br><span class="line">    <span class="keyword">new</span> webpack.HotModuleReplacementPlugin()，</span><br><span class="line">    <span class="keyword">new</span> ExtractTextPlugin(<span class="string">'[name].css'</span>)</span><br><span class="line">  ],</span><br><span class="line">  proxy: &#123;</span><br><span class="line">    <span class="string">'/some/path*'</span>: &#123;</span><br><span class="line">      target: <span class="string">'https://other-server.example.com'</span>,</span><br><span class="line">      secure: <span class="literal">false</span>,</span><br><span class="line">    &#125;,</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>只需要修改css的loader就可以了。</p>
+<p>下面就用button举例吧：</p>
+<blockquote>
+<p>button.jsx</p>
+</blockquote>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/** button.jsx **/</span></span><br><span class="line"><span class="comment">/**</span><br><span class="line"> * Created by Aaronphy on 16/2/17.</span><br><span class="line"> */</span></span><br><span class="line"><span class="keyword">import</span> React,&#123;Component&#125; <span class="keyword">from</span> <span class="string">'react'</span>;</span><br><span class="line"><span class="keyword">import</span> &#123; render &#125; <span class="keyword">from</span> <span class="string">'react-dom'</span>;</span><br><span class="line"><span class="keyword">import</span> styles <span class="keyword">from</span> <span class="string">'./style.css'</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> <span class="class"><span class="keyword">class</span> <span class="title">Button</span> <span class="keyword">extends</span> <span class="title">Component</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">constructor</span>()&#123;</span><br><span class="line">    <span class="keyword">super</span>();</span><br><span class="line">    <span class="keyword">this</span>.state =&#123;</span><br><span class="line">      invalid:<span class="literal">false</span></span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  handleClick(e)&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">this</span>.setState(&#123;invalid:!<span class="keyword">this</span>.state.invalid&#125;);</span><br><span class="line"></span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  render()&#123;</span><br><span class="line">    <span class="keyword">const</span> text = <span class="keyword">this</span>.state.invalid ?<span class="string">'不可点击'</span>:<span class="string">'可点击'</span>;</span><br><span class="line">    <span class="keyword">const</span> &#123;invalid&#125; = <span class="keyword">this</span>.state;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span>(</span><br><span class="line">      <span class="xml"><span class="tag">&lt;<span class="name">button</span> <span class="attr">className</span>=<span class="string">&#123;invalid?styles.invalid:styles.normal&#125;</span> <span class="attr">onClick</span> = <span class="string">&#123;e</span>=&gt;</span>this.handleClick(e)&#125;&gt;</span><br><span class="line">        &#123;text&#125;</span><br><span class="line">      <span class="tag">&lt;/<span class="name">button</span>&gt;</span></span></span><br><span class="line">    );</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>base.css</p>
+</blockquote>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-class">.common</span> &#123;</span><br><span class="line">    <span class="attribute">width</span>: <span class="number">80px</span>;</span><br><span class="line">    <span class="attribute">height</span>:<span class="number">30px</span>;</span><br><span class="line">    <span class="attribute">border</span>:<span class="number">1px</span> solid <span class="number">#ccc</span>;</span><br><span class="line">    <span class="attribute">border-radius</span>: <span class="number">8px</span>;</span><br><span class="line">    <span class="attribute">outline</span>:none;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="selector-class">.primary</span> &#123;</span><br><span class="line">    <span class="attribute">color</span>:white;</span><br><span class="line">    <span class="attribute">background-color</span>: <span class="number">#37A3EC</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="selector-class">.disabled</span>&#123;</span><br><span class="line">    <span class="attribute">color</span>: white;</span><br><span class="line">    <span class="attribute">background-color</span>: <span class="number">#cccccc</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>style.css  </p>
+</blockquote>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-class">.normal</span>&#123;</span><br><span class="line">    <span class="attribute">composes</span>: common primary from <span class="string">"./base.css"</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="selector-class">.invalid</span>&#123;</span><br><span class="line">    <span class="attribute">composes</span>: common disabled from <span class="string">"./base.css"</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>npm run start 下看看效果</p>
+</blockquote>
+<p><img src="http://img4.tbcdn.cn/L1/461/1/5b626dc6c5afe8f0edaee5a27e7da6732e2b9bbd" alt="_2016_07_29_2_34_24"></p>
+<p><img src="http://img4.tbcdn.cn/L1/461/1/46d764d88497a37a9f2288fca0971d06b473513f" alt="7_29_2016_14_35_29"></p>
+<blockquote>
+<p> 参考<br>   －  <a href="http://glenmaddern.com/articles/css-modules" target="_blank" rel="external">CSS Modules</a></p>
+</blockquote>
+
+        </div>
+        <footer class="article-footer">
+            
+
+
+
+    <a data-url="http://alifgt.github.io/2016/06/30/CSS Modules 认识与实践/" data-id="cirh6r1iw001etxntd969bad0" class="article-share-link"><i class="fa fa-share"></i>分享到</a>
+<script>
+    (function ($) {
+        $('body').on('click', function() {
+            $('.article-share-box.on').removeClass('on');
+        }).on('click', '.article-share-link', function(e) {
+            e.stopPropagation();
+
+            var $this = $(this),
+                url = $this.attr('data-url'),
+                encodedUrl = encodeURIComponent(url),
+                id = 'article-share-box-' + $this.attr('data-id'),
+                offset = $this.offset(),
+                box;
+
+            if ($('#' + id).length) {
+                box = $('#' + id);
+
+                if (box.hasClass('on')){
+                    box.removeClass('on');
+                    return;
+                }
+            } else {
+                var html = [
+                    '<div id="' + id + '" class="article-share-box">',
+                        '<input class="article-share-input" value="' + url + '">',
+                        '<div class="article-share-links">',
+                            '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+                            '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+                            '<a href="http://pinterest.com/pin/create/button/?url=' + encodedUrl + '" class="article-share-pinterest" target="_blank" title="Pinterest"></a>',
+                            '<a href="https://plus.google.com/share?url=' + encodedUrl + '" class="article-share-google" target="_blank" title="Google+"></a>',
+                        '</div>',
+                    '</div>'
+                ].join('');
+
+              box = $(html);
+
+              $('body').append(box);
+            }
+
+            $('.article-share-box.on').hide();
+
+            box.css({
+                top: offset.top + 25,
+                left: offset.left
+            }).addClass('on');
+
+        }).on('click', '.article-share-box', function (e) {
+            e.stopPropagation();
+        }).on('click', '.article-share-box-input', function () {
+            $(this).select();
+        }).on('click', '.article-share-box-link', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+
+            window.open(this.href, 'article-share-box-window-' + Date.now(), 'width=500,height=450');
+        });
+    })(jQuery);
+</script>
+
+        </footer>
+    </div>
+</article>
+
+    <section id="comments">
+    
+        
+    <div class="ds-thread" data-thread-key="2016/06/30/CSS Modules 认识与实践/" data-title="CSS Modules 认识与实践" data-url="http://alifgt.github.io/2016/06/30/CSS Modules 认识与实践/"></div>
+    <style>
+        #ds-thread #ds-reset .ds-textarea-wrapper {
+            background: none;
+        }
+        #ds-reset .ds-avatar img {
+            box-shadow: none;
+        }
+        #ds-reset .ds-gradient-bg {
+            background: #f7f7f7;
+        }
+        #ds-thread #ds-reset li.ds-tab a {
+            border-radius: 3px;
+        }
+        #ds-thread #ds-reset .ds-post-button {
+            color: white;
+            border: none;
+            box-shadow: none;
+            background: #d32;
+            text-shadow: none;
+            font-weight: normal;
+            font-family: 'Microsoft Yahei';
+        }
+        #ds-thread #ds-reset .ds-post-button:hover {
+            color: white;
+            background: #DE594C;
+        }
+        #ds-thread #ds-reset .ds-post-button:active {
+            background: #d32;
+        }
+        #ds-smilies-tooltip ul.ds-smilies-tabs li a.ds-current {
+            color: white;
+            background: #d32;
+            box-shadow: none;
+            text-shadow: none;
+            font-weight: normal;
+        }
+    </style>
+
+    
+    </section>
+
+                        </div>
+                    </section>
+                    <aside id="sidebar">
+    <a class="sidebar-toggle" title="Expand Sidebar"><i class="toggle icon"></i></a>
+    <div class="sidebar-top">
+        <p>关注我们 :</p>
+        <ul class="social-links">
+            
+                
+                <li>
+                    <a class="social-tooltip" title="github" href="https://github.com/alifgt/" target="_blank">
+                        <i class="icon fa fa-github"></i>
+                    </a>
+                </li>
+                
+            
+                
+                <li>
+                    <a class="social-tooltip" title="rss" href="/" target="_blank">
+                        <i class="icon fa fa-rss"></i>
+                    </a>
+                </li>
+                
+            
+        </ul>
+    </div>
+    
+        
+<nav id="article-nav">
+    
+        <a href="/2016/06/30/js-context/" id="article-nav-newer" class="article-nav-link-wrap">
+        <strong class="article-nav-caption">下一篇</strong>
+        <p class="article-nav-title">
+        
+            Javascript中的上下文，我认识的三个阶段
+        
+        </p>
+        <i class="icon fa fa-chevron-right" id="icon-chevron-right"></i>
+    </a>
+    
+    
+</nav>
+
+    
+    <div class="widgets-container">
+        
+            
+                
+    <div class="widget-wrap">
+        <h3 class="widget-title">最新文章</h3>
+        <div class="widget">
+            <ul id="recent-post" class="">
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/2016/08/05/Gentle explanation of 'this' keyword in JavaScript/" class="thumbnail">
+    
+    
+        <span class="thumbnail-image thumbnail-none"></span>
+    
+    
+</a>
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/IRIS翻译社/">IRIS翻译社</a></p>
+                            <p class="item-title"><a href="/2016/08/05/Gentle explanation of 'this' keyword in JavaScript/" class="title">Gentle explanation of &#39;this&#39; keyword in JavaScript</a></p>
+                            <p class="item-date"><time datetime="2016-08-05T02:43:44.000Z" itemprop="datePublished">2016-08-05</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/2016/07/28/react+redux入坑指南/" class="thumbnail">
+    
+    
+        <span style="background-image:url(https://img.alicdn.com/tps/TB1OoKaLXXXXXXaXpXXXXXXXXXX-1514-1234.png)" alt="React + Redux 入坑指南" class="thumbnail-image"></span>
+    
+    
+</a>
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/web开发/">web开发</a></p>
+                            <p class="item-title"><a href="/2016/07/28/react+redux入坑指南/" class="title">React + Redux 入坑指南</a></p>
+                            <p class="item-date"><time datetime="2016-07-28T10:37:31.000Z" itemprop="datePublished">2016-07-28</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/2016/07/21/ReactNative初体验 /" class="thumbnail">
+    
+    
+        <span style="background-image:url(https://img.alicdn.com/tps/TB1rk34KVXXXXXvXXXXXXXXXXXX-600-375.png)" alt="ReactNative初体验" class="thumbnail-image"></span>
+    
+    
+</a>
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/web开发/">web开发</a></p>
+                            <p class="item-title"><a href="/2016/07/21/ReactNative初体验 /" class="title">ReactNative初体验</a></p>
+                            <p class="item-date"><time datetime="2016-07-21T12:31:05.000Z" itemprop="datePublished">2016-07-21</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/2016/07/21/An Introduction To Redux/" class="thumbnail">
+    
+    
+        <span style="background-image:url(http://img1.tbcdn.cn/L1/461/1/1b4f1c09e39f7c08c689175ed9b5d52fbb767b1f)" alt="《An Introduction To Redux》－redux简介" class="thumbnail-image"></span>
+    
+    
+</a>
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/IRIS翻译社/">IRIS翻译社</a></p>
+                            <p class="item-title"><a href="/2016/07/21/An Introduction To Redux/" class="title">《An Introduction To Redux》－redux简介</a></p>
+                            <p class="item-date"><time datetime="2016-07-21T12:20:52.000Z" itemprop="datePublished">2016-07-21</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/2016/07/07/react试用体验/" class="thumbnail">
+    
+    
+        <span style="background-image:url(https://img.alicdn.com/tps/TB1.z0wKVXXXXauXFXXXXXXXXXX-1000-563.png)" alt="React试点开发总结" class="thumbnail-image"></span>
+    
+    
+</a>
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/web开发/">web开发</a></p>
+                            <p class="item-title"><a href="/2016/07/07/react试用体验/" class="title">React试点开发总结</a></p>
+                            <p class="item-date"><time datetime="2016-07-07T07:58:33.000Z" itemprop="datePublished">2016-07-07</time></p>
+                        </div>
+                    </li>
+                
+            </ul>
+        </div>
+    </div>
+
+            
+                
+    <div class="widget-wrap widget-list">
+        <h3 class="widget-title">分类</h3>
+        <div class="widget">
+            <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/IRIS翻译社/">IRIS翻译社</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/web开发/">web开发</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/移动开发/">移动开发</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/资源工具/">资源工具</a><span class="category-list-count">1</span></li></ul>
+        </div>
+    </div>
+
+
+            
+                
+    <div class="widget-wrap widget-list">
+        <h3 class="widget-title">归档</h3>
+        <div class="widget">
+            <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/08/">八月 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/07/">七月 2016</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/06/">六月 2016</a><span class="archive-list-count">4</span></li></ul>
+        </div>
+    </div>
+
+
+            
+                
+    <div class="widget-wrap widget-list">
+        <h3 class="widget-title">标签</h3>
+        <div class="widget">
+            <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/css/">css</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/js/">js</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/react/">react</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/性能/">性能</a><span class="tag-list-count">1</span></li></ul>
+        </div>
+    </div>
+
+
+            
+                
+    <div class="widget-wrap widget-float">
+        <h3 class="widget-title">标签云</h3>
+        <div class="widget tagcloud">
+            <a href="/tags/css/" style="font-size: 10px;">css</a> <a href="/tags/js/" style="font-size: 15px;">js</a> <a href="/tags/react/" style="font-size: 20px;">react</a> <a href="/tags/性能/" style="font-size: 10px;">性能</a>
+        </div>
+    </div>
+
+
+            
+                
+    <div class="widget-wrap widget-list">
+        <h3 class="widget-title">链接</h3>
+        <div class="widget">
+            <ul>
+                
+                    <li>
+                        <a href="http://taobaofed.org">淘宝FED</a>
+                    </li>
+                
+            </ul>
+        </div>
+    </div>
+
+
+            
+        
+    </div>
+</aside>
+                </div>
+            </div>
+        </div>
+        <footer id="footer">
+    <div class="container">
+        <div class="container-inner">
+            <a id="back-to-top" href="javascript:;"><i class="icon fa fa-angle-up"></i></a>
+            <div class="credit">
+                <h1 class="logo-wrap">
+                    <a href="/" class="logo"></a>
+                </h1>
+                <p>&copy; 2016 FGT TEAM</p>
+                <p>Powered by <a href="//hexo.io/" target="_blank">Hexo</a>. Theme by <a href="//github.com/ppoffice" target="_blank">PPOffice</a></p>
+            </div>
+        </div>
+    </div>
+</footer>
+        
+    
+    <script type="text/javascript">
+    var duoshuoQuery = {short_name:'alifgt'};
+    (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0]
+    || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+    </script>
+
+
+
+    
+        <script src="/vendor/fancybox/jquery.fancybox.pack.js"></script>
+    
+
+    
+        <script src="/vendor/scrollLoading/jquery.scrollLoading.js"></script>
+        <script src="/vendor/scrollLoading/main.js"></script>
+    
+
+
+<!-- Custom Scripts -->
+<script src="/js/main.js"></script>
+
+    </div>
+</body>
+</html>
