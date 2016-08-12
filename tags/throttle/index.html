@@ -3,13 +3,13 @@
 <head>
     <meta charset="utf-8">
     
-    <title>分类: 移动开发 | FGT</title>
+    <title>标签：: throttle | FGT</title>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     
     <meta name="description" content="FGT（Front-end Glue Team）来自于集团客户体验事业群，我们致力于Web前端技术的研究，同时也重视全栈的能力、产品的推动。Glue即为胶水，我们粘合了设计与技术、用户和产品的关系，用最酷的技术提升客户服务的体验和小二工作的幸福感。FGT也可看成是Fighting的缩写。对，我们在听得到炮火的地方战斗，我们要把好阿里用户体验的最后一关！Fighting！">
 <meta property="og:type" content="website">
 <meta property="og:title" content="FGT">
-<meta property="og:url" content="http://alifgt.github.io/categories/移动开发/index.html">
+<meta property="og:url" content="http://alifgt.github.io/tags/throttle/index.html">
 <meta property="og:site_name" content="FGT">
 <meta property="og:description" content="FGT（Front-end Glue Team）来自于集团客户体验事业群，我们致力于Web前端技术的研究，同时也重视全栈的能力、产品的推动。Glue即为胶水，我们粘合了设计与技术、用户和产品的关系，用最酷的技术提升客户服务的体验和小二工作的幸福感。FGT也可看成是Fighting的缩写。对，我们在听得到炮火的地方战斗，我们要把好阿里用户体验的最后一关！Fighting！">
 <meta name="twitter:card" content="summary">
@@ -153,7 +153,7 @@ var _hmt = _hmt || [];
                         <div class="main-body-header">
     <h1 class="header">
     
-    <i class="icon fa fa-folder-open"></i>分类: <em class="page-title-link">移动开发</em>
+    <i class="icon fa fa-tag"></i>标签：: <em>throttle</em>
     </h1>
 </div>
                         <div class="main-body-content">
@@ -176,17 +176,17 @@ var _hmt = _hmt || [];
         <article class="article article-summary">
     <div class="article-summary-inner">
         
-        <a href="/2016/06/30/web渲染性能/" class="thumbnail">
+        <a href="/2016/08/12/debounce-and-throttle/" class="thumbnail">
     
     
-        <span style="background-image:url(https://gw.alicdn.com/tps/TB1.3O3KpXXXXcKXXXXXXXXXXXX-1390-504.png)" alt="web渲染性能" class="thumbnail-image"></span>
+        <span style="background-image:url(http://7xir1p.com1.z0.glb.clouddn.com/debounce-vs-throttle-v1.png)" alt="Debounce 和 Throttle 的原理及实现" class="thumbnail-image"></span>
     
     
         
 <span class="comment-counter">
     <i class="fa fa-comments-o"></i>
     
-        <span class="ds-thread-count" data-thread-key="2016/06/30/web渲染性能/">0</span>
+        <span class="ds-thread-count" data-thread-key="2016/08/12/debounce-and-throttle/">0</span>
     
 </span>
 
@@ -195,20 +195,20 @@ var _hmt = _hmt || [];
         
         <div class="article-meta">
             <p class="category">
-            <a class="article-category-link" href="/categories/移动开发/">移动开发</a>
+            <a class="article-category-link" href="/categories/web开发/">web开发</a>
             </p>
-            <p class="date"><time datetime="2016-06-30T09:05:22.000Z" itemprop="datePublished">2016-06-30</time></p>
+            <p class="date"><time datetime="2016-08-12T02:26:33.000Z" itemprop="datePublished">2016-08-12</time></p>
         </div>
         
     
         <h1 class="article-title" itemprop="name">
-        <a href="/2016/06/30/web渲染性能/">web渲染性能</a>
+        <a href="/2016/08/12/debounce-and-throttle/">Debounce 和 Throttle 的原理及实现</a>
         </h1>
     
 
         <p class="article-excerpt">
-            这篇文章主要关注的是资源加载之后的性能，因为大多数用户关注的不是应用如何加载而是具体的使用。所以要快速响应用户，尤其是无线端，我们有必要了解浏览器渲染性能。
-RAIL 性能模型首先一个需要思考的问题，怎样的网站是顺畅的？我们可能可以给一个大概的感觉，如：秒级响应等。其实，也可以给出一个很讨巧的答案：用户觉得顺畅的网站它就是顺畅的。因为几乎所有网站都希望将用户留在页面上，当然以用户为中心建立性能模型
+            在处理诸如 resize、scroll、mousemove 和 keydown/keyup/keypress 等事件的时候，通常我们不希望这些事件太过频繁地触发，尤其是监听程序中涉及到大量的计算或者有非常耗费资源的操作。
+有多频繁呢？以 mousemove 为例，根据 DOM Level 3 的规定，「如果鼠标连续移动，那么浏览器就应该触发多个连续的 mousemove 事件」，这意味着浏览器会在
         </p>
     </div>
 </article>
@@ -218,7 +218,6 @@ RAIL 性能模型首先一个需要思考的问题，怎样的网站是顺畅的
 
 
     </div></section>
-
 
 
 
